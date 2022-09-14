@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Categories from "./components/Categories";
+import Header from "./components/Header/Header";
+import PizzaList from "./components/PizzaList";
+import "./scss/app.scss";
 
 function App() {
+  const [categoryId, setCategoryId] = useState(0);
+
+  const handleCategoryChange = (selectedCategoryId: number) => {
+    setCategoryId(selectedCategoryId);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper">
+      <Header />
+      <div className="container">
+        <Categories categoryId={categoryId} handleCategoryChange={handleCategoryChange} />
+        <PizzaList />
+      </div>
     </div>
   );
 }
