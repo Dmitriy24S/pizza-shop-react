@@ -5,12 +5,14 @@
   padding-bottom: 10px;
   margin: 0 auto;
   margin-bottom: 55px;
+  // transition: transform $duration ease-in-out;
+  transition: transform 200ms ease-in-out;
 
   img {
     width: 260px;
   }
 
-  .pizza-title {
+  &__title {
     margin-bottom: 20px;
     //   &:hover {
     //     color: $orange;
@@ -18,39 +20,73 @@
   }
 
   &:hover {
-    .pizza-title {
-      color: darken($orange, 8);
+    //   .pizza-card__title {
+    //     color: darken($orange, 8);
+    //   }
+    // transform: scale(1.1);
+    transform: scale(1.03);
+  }
+
+  &__selection-block {
+    // background-color: #f3f3f3;
+    background-color: $light-gray;
+    border-radius: 10px;
+    padding: 6px;
+
+    ul {
+      display: flex;
+      // flex: 1 1;
+
+      &:first-of-type {
+        margin-bottom: 6px;
+      }
+
+      li {
+        flex: 1 1; // ! grow auto fill row?
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+        cursor: pointer;
+
+        &.active {
+          // background: #fff;
+          background: white;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgb(0 0 0 / 4%);
+          cursor: default;
+        }
+      }
     }
   }
-}
 
-.selection-block {
-  // background-color: #f3f3f3;
-  background-color: $light-gray;
-  border-radius: 10px;
-  padding: 6px;
-
-  ul {
+  &__bottom {
     display: flex;
-    // flex: 1 1;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
 
-    &:first-of-type {
-      margin-bottom: 6px;
+    .pizza-price {
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.015em;
+      line-height: 27px;
     }
 
-    li {
-      flex: 1 1; // ! grow auto fill row?
-      font-size: 14px;
+    .add-cart-btn {
+      padding: 10px 20px; // TODO: add button padding to normalize scss ?
+      border: 1px solid $orange;
+      border-radius: 30px; // TODO: button normalize scss ?
+      color: $orange;
+      font-size: 16px;
       font-weight: 600;
-      padding: 8px;
-      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      transition: background-color $duration ease-in-out;
 
-      &.active {
-        // background: #fff;
-        background: white;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgb(0 0 0 / 4%);
-        cursor: default;
+      &:hover {
+        color: white;
+        background-color: $orange;
       }
     }
   }

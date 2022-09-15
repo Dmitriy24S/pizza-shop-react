@@ -5,7 +5,7 @@
     "title": "Pepperoni with pepper",
     "types": [0, 1],
     "sizes": [26, 30, 40],
-    "price": 803,
+    "price": 12.99,
     "category": 0,
     "rating": 4
   },
@@ -15,7 +15,7 @@
     "title": "Cheese",
     "types": [0],
     "sizes": [26, 40],
-    "price": 245,
+    "price": 5.99,
     "category": 0,
     "rating": 6
   },
@@ -25,7 +25,7 @@
     "title": "Chicken BBQ",
     "types": [0],
     "sizes": [26, 40],
-    "price": 295,
+    "price": 6.99,
     "category": 1,
     "rating": 4
   },
@@ -35,7 +35,7 @@
     "title": "Sour-sweet Chicken",
     "types": [1],
     "sizes": [26, 30, 40],
-    "price": 275,
+    "price": 5.99,
     "category": 2,
     "rating": 2
   },
@@ -45,7 +45,7 @@
     "title": "Cheeseburger-Pizza",
     "types": [0, 1],
     "sizes": [26, 30, 40],
-    "price": 415,
+    "price": 6.99,
     "category": 3,
     "rating": 8
   },
@@ -55,7 +55,7 @@
     "title": "Crazy Pepperoni",
     "types": [0],
     "sizes": [30, 40],
-    "price": 580,
+    "price": 9.99,
     "category": 2,
     "rating": 2
   },
@@ -65,7 +65,7 @@
     "title": "Pepperoni",
     "types": [0, 1],
     "sizes": [26, 30, 40],
-    "price": 675,
+    "price": 9.99,
     "category": 1,
     "rating": 9
   },
@@ -75,7 +75,7 @@
     "title": "Margherita",
     "types": [0, 1],
     "sizes": [26, 30, 40],
-    "price": 450,
+    "price": 6.99,
     "category": 4,
     "rating": 10
   },
@@ -85,7 +85,7 @@
     "title": "Four Seasons",
     "types": [0, 1],
     "sizes": [26, 30, 40],
-    "price": 395,
+    "price": 7.99,
     "category": 5,
     "rating": 10
   },
@@ -95,7 +95,7 @@
     "title": "Vegetables and mushrooms 🌱",
     "types": [0, 1],
     "sizes": [26, 30, 40],
-    "price": 285,
+    "price": 5.99,
     "category": 5,
     "rating": 7
   }
