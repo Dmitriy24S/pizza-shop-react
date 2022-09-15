@@ -1,3 +1,9 @@
+.content-list {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(1, 1fr);
+}
+
 .list-title {
   font-size: 38px;
   font-weight: 800;

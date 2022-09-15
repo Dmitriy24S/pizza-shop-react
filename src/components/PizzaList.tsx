@@ -1,10 +1,24 @@
-import React from "react";
-import pizzaData from "../assets/data.json";
-import PizzaCard from "./PizzaCard";
+import React, { useEffect, useState } from "react";
+// import pizzaData from "../assets/data.json";
+import PizzaCard from "./PizzaCard/PizzaCard";
+import PizzaCardSkeleton from "./PizzaCard/PizzaCardSkeleton";
+
+interface Pizza {
+  id: number;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+  category: number;
+  rating: number;
+}
 
 const PizzaList = () => {
+  const [pizzaData, setPizzaData] = useState<Pizza[]>([]);
+
   // console.log(pizzaData);
-  // (10) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+  // (10) [{id: 0,…}, {id: 1,…}, {id: 2,…}, {id: 3,…}, {id: 4,…}, {id: 5,…}, {id: 6,…}, {id: 7,…}, {id: 8,…},…]
   // 0:
   // category: 0
   // id: 0
@@ -15,13 +29,31 @@ const PizzaList = () => {
   // title: "Pepperoni with pepper"
   // types: (2) [0, 1]
 
+  useEffect(() => {
+    const fetchPizzas = () => {
+      fetch("https://632300e8a624bced30841bde.mockapi.io/items")
+        .then((res) => {
+          // console.log({ res });
+          return res.json();
+        })
+        .then((data) => {
+          setPizzaData(data);
+          console.log(data);
+        });
+    };
+    fetchPizzas();
+  }, []);
+
   return (
     <section>
       <h2 className="list-title">All pizzas</h2>
       <div className="content-list">
-        {pizzaData.map((pizza) => (
-          <PizzaCard key={pizza.id} pizza={pizza} />
-        ))}
+        {pizzaData.length > 1 ? (
+          pizzaData.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} />)
+        ) : (
+          //   <h1 style={{ color: "crimson", textAlign: "center" }}>Loading Pizzas...</h1>
+          <PizzaCardSkeleton />
+        )}
       </div>
     </section>
   );

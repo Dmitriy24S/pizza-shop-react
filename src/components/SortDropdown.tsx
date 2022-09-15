@@ -40,7 +40,7 @@ const SortDropdown = () => {
         <div className="sort-dropdown__options">
           <ul>
             {sortOptionsText.map((optionText, index) => (
-              <li>
+              <li key={optionText}>
                 <button
                   className={selectedSortOption === optionText ? "active" : ""}
                   onClick={() => {
