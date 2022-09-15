@@ -2,14 +2,14 @@
 
 .categories {
   padding: 5px;
-  width: 100%;
+  width: 100%; // needed helps mobile avoid overflow container
   overflow: auto;
   scroll-snap-type: x mandatory;
 
   ul {
     display: flex;
     align-items: center;
-    width: 785px;
+    max-width: 785px;
   }
 
   button {

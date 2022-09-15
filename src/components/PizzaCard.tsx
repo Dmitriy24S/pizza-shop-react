@@ -43,14 +43,14 @@ const PizzaCard = ({ pizza }: Props) => {
       <div className="selection-block">
         {/* pizza type */}
         <ul className="pizza-types">
-          {pizza.types.map((type) => (
+          {pizza.types.map((typeId) => (
             //   "types": [1],
             <li
-              key={type}
-              className={selectedPizzaType === type ? "active" : ""}
-              onClick={() => setSelectedPizzaType(type)}
+              key={typeId}
+              className={selectedPizzaType === typeId ? "active" : ""}
+              onClick={() => setSelectedPizzaType(typeId)}
             >
-              {typeNames[type]}
+              {typeNames[typeId]}
             </li>
           ))}
         </ul>
@@ -60,7 +60,8 @@ const PizzaCard = ({ pizza }: Props) => {
             //  "sizes": [26, 30, 40],
             <li
               key={size}
-              className={pizza.sizes[selectedPizzaSize] === pizza.sizes[index] ? "active" : ""}
+              //   className={pizza.sizes[selectedPizzaSize] === pizza.sizes[index] ? "active" : ""}
+              className={selectedPizzaSize === index ? "active" : ""}
               onClick={() => setSelectedPizzaSize(index)}
             >
               {size} cm.

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Categories from "./components/Categories";
 import Header from "./components/Header/Header";
 import PizzaList from "./components/PizzaList";
+import SortDropdown from "./components/SortDropdown";
 import "./scss/app.scss";
 
 function App() {
@@ -15,7 +16,10 @@ function App() {
     <div className="wrapper">
       <Header />
       <div className="container">
-        <Categories categoryId={categoryId} handleCategoryChange={handleCategoryChange} />
+        <div className="container__top">
+          <Categories categoryId={categoryId} handleCategoryChange={handleCategoryChange} />
+          <SortDropdown />
+        </div>
         <PizzaList />
       </div>
     </div>

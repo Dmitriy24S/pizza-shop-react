@@ -26,3 +26,16 @@ body {
   width: 90%;
   padding-bottom: 40px;
 }
+
+.container__top {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.8rem;
+
+  @media (min-width: 645px) {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
