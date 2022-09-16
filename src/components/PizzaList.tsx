@@ -48,12 +48,10 @@ const PizzaList = () => {
     <section>
       <h2 className="list-title">All pizzas</h2>
       <div className="content-list">
-        {pizzaData.length > 1 ? (
-          pizzaData.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} />)
-        ) : (
-          //   <h1 style={{ color: "crimson", textAlign: "center" }}>Loading Pizzas...</h1>
-          <PizzaCardSkeleton />
-        )}
+        {pizzaData.length > 1
+          ? pizzaData.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} />)
+          : [...Array(10)].map((_card) => <PizzaCardSkeleton />)}
+        {/*  <h1 style={{ color: "crimson", textAlign: "center" }}> Loading Pizzas... </h1> */}
       </div>
     </section>
   );

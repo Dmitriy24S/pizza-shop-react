@@ -2,6 +2,17 @@
   display: grid;
   justify-items: center;
   grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+
+  @media (min-width: 730px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1040px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 1440px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .list-title {
