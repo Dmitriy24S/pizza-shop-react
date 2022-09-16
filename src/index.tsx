@@ -4,10 +4,48 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./scss/index.scss";
 
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  Routes,
+} from "react-router-dom";
+
+// import Header from "./components/Header/Header";
+// import Cart from "./Pages/Cart/Cart";
+// import ErrorPage from "./Pages/ErrorPage/ErrorPage";
+// import Home from "./Pages/Home/Home";
+
+// New React Router?:
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <App />,
+//     errorElement: <ErrorPage />,
+//     children: [
+//       {
+//         path: "/",
+//         element: <Home />,
+//       },
+//       {
+//         path: "cart",
+//         element: <Cart />,
+//       },
+//     ],
+//   },
+// ]);
+
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    {/* New React Router?: */}
+    {/* <RouterProvider router={router} /> */}
+
+    {/* Classic React Router: */}
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
 

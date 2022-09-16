@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import HeaderLogo from "../../assets/img/pizza-logo.svg";
 import styles from "./Header.module.scss";
 
@@ -8,13 +10,13 @@ const Header = () => {
       <div className={styles.container}>
         <div className={styles.logoContainer}>
           <img src={HeaderLogo} alt="Pizza Shop Logo" width="38" />
-          <div>
+          <Link to={`/`}>
             <h1>Pizza Shop</h1>
             <p>Tasties pizza ever</p>
-          </div>
+          </Link>
         </div>
         <div className={styles.cart}>
-          <button>
+          <Link to={`cart`}>
             <span>0 $</span>
             <div className={styles.separator}></div>
             <span>
@@ -50,7 +52,7 @@ const Header = () => {
               </svg>
               0
             </span>
-          </button>
+          </Link>
         </div>
       </div>
     </header>

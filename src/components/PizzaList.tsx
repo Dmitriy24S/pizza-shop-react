@@ -48,9 +48,10 @@ const PizzaList = () => {
     <section>
       <h2 className="list-title">All pizzas</h2>
       <div className="content-list">
+        {/* // TODO: isLoading? */}
         {pizzaData.length > 1
           ? pizzaData.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} />)
-          : [...Array(10)].map((_card) => <PizzaCardSkeleton />)}
+          : [...Array(10)].map((_card, index) => <PizzaCardSkeleton key={index} />)}
         {/*  <h1 style={{ color: "crimson", textAlign: "center" }}> Loading Pizzas... </h1> */}
       </div>
     </section>
