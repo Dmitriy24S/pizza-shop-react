@@ -1,6 +1,6 @@
 .pizza-card {
   text-align: center;
-  width: 250px;
+  width: 250px; // disable for grid? around 260px grid makes? // keep for more centered look?
   display: block;
   padding-bottom: 10px;
   margin: 0 auto;
@@ -10,6 +10,11 @@
 
   img {
     width: 260px;
+  }
+
+  a {
+    display: block;
+    overflow: hidden; // tab focus rectangle (img 260px vs 250px card) uneven pics half fix / work around?
   }
 
   &__title {

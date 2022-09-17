@@ -34,8 +34,47 @@ body {
   justify-content: space-between;
   gap: 1.8rem;
 
-  @media (min-width: 645px) {
+  // @media (min-width: 645px) {
+  @media (min-width: 820px) {
     flex-direction: row;
     gap: 1rem;
+  }
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  color: #ffff;
+  font-weight: 600;
+  border: none;
+  line-height: 23px;
+  padding: 12px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all $duration ease-in-out;
+}
+
+.btn--primary {
+  background-color: $orange;
+  &:hover {
+    background-color: darken($orange, 8%);
+  }
+
+  &:active {
+    background-color: darken($orange, 12%);
+    transform: translateY(1px);
+  }
+}
+
+.btn--secondary {
+  border: 1px solid #d3d3d3;
+  color: #c3c3c3;
+
+  &:hover {
+    background-color: $black;
+    color: white;
+  }
+  &:active {
+    transform: translateY(1px);
   }
 }

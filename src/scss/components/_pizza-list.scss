@@ -1,18 +1,22 @@
 .content-list {
   display: grid;
   justify-items: center;
-  grid-template-columns: repeat(1, 1fr);
   gap: 1rem;
+  // grid-template-columns: repeat(1, 1fr);
 
-  @media (min-width: 730px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (min-width: 1040px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (min-width: 1440px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  // 1 line for dynamic grid mobile to desktop?:
+  // grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+  // @media (min-width: 730px) {
+  //   grid-template-columns: repeat(2, 1fr);
+  // }
+  // @media (min-width: 1040px) {
+  //   grid-template-columns: repeat(3, 1fr);
+  // }
+  // @media (min-width: 1440px) {
+  //   grid-template-columns: repeat(4, 1fr);
+  // }
 }
 
 .list-title {
