@@ -43,43 +43,41 @@
   }
 }
 
-.cart {
-  a {
+.cartBtn {
+  display: flex;
+  align-items: center;
+  background-color: $orange;
+  color: #ffff;
+  border: none;
+  line-height: 23px;
+  padding: 12px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all $duration ease-in-out;
+
+  .separator {
+    width: 1px;
+    height: 25px;
+    //   background-color: #ffffff40;
+    background-color: $gray-separator;
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  span {
     display: flex;
     align-items: center;
-    background-color: $orange;
-    color: #ffff;
-    border: none;
-    line-height: 23px;
-    padding: 12px 25px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all $duration ease-in-out;
+    font-size: 16px;
+    font-weight: 600; // TODO: refactor? button global?
+    gap: 8px;
+  }
 
-    .separator {
-      width: 1px;
-      height: 25px;
-      //   background-color: #ffffff40;
-      background-color: $gray-separator;
-      margin-left: 14px;
-      margin-right: 14px;
-    }
+  &:hover {
+    background-color: darken($orange, 8%);
+  }
 
-    span {
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      font-weight: 600; // TODO: refactor? button global?
-      gap: 8px;
-    }
-
-    &:hover {
-      background-color: darken($orange, 8%);
-    }
-
-    &:active {
-      background-color: darken($orange, 12%);
-      transform: translateY(1px);
-    }
+  &:active {
+    background-color: darken($orange, 12%);
+    transform: translateY(1px);
   }
 }

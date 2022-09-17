@@ -36,6 +36,9 @@
   padding: 2rem 0;
   margin-top: 1rem;
   border-top: 1px solid $gray-line;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .cart__item {

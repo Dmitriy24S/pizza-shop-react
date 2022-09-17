@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Categories from "../components/Categories";
 import PizzaList from "../components/PizzaList";
 import SortDropdown from "../components/SortDropdown";
@@ -9,6 +9,11 @@ const Home = () => {
   const handleCategoryChange = (selectedCategoryId: number) => {
     setCategoryId(selectedCategoryId);
   };
+
+  // scroll to top of page on page load (return from cart)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
