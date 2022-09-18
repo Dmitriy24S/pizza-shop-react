@@ -2,21 +2,22 @@
   display: grid;
   justify-items: center;
   gap: 1rem;
-  // grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(1, 1fr);
 
-  // 1 line for dynamic grid mobile to desktop?:
+  // 1 line for dynamic grid mobile to desktop?: // but auto centers items to fill space if 1 or 2 items instead of 3
   // grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  // grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
-  // @media (min-width: 730px) {
-  //   grid-template-columns: repeat(2, 1fr);
-  // }
-  // @media (min-width: 1040px) {
-  //   grid-template-columns: repeat(3, 1fr);
-  // }
-  // @media (min-width: 1440px) {
-  //   grid-template-columns: repeat(4, 1fr);
-  // }
+  // keeps items align to left if less than 3 items
+  @media (min-width: 730px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1040px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 1440px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .list-title {

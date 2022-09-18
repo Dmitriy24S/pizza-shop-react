@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 // import pizzaData from "../assets/data.json";
 import PizzaCard from "./PizzaCard/PizzaCard";
 import PizzaCardSkeleton from "./PizzaCard/PizzaCardSkeleton";
@@ -13,45 +13,26 @@ interface Pizza {
   category: number;
   rating: number;
 }
+// ! REPEAT - TODO: refactor!
 
-const PizzaList = () => {
-  const [pizzaData, setPizzaData] = useState<Pizza[]>([]);
+interface Props {
+  categoryId: number;
+  isLoading: boolean;
+  pizzaData: Pizza[];
+}
+const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
+// ! REPEAT - TODO: refactor!
 
-  // console.log(pizzaData);
-  // (10) [{id: 0,…}, {id: 1,…}, {id: 2,…}, {id: 3,…}, {id: 4,…}, {id: 5,…}, {id: 6,…}, {id: 7,…}, {id: 8,…},…]
-  // 0:
-  // category: 0
-  // id: 0
-  // imageUrl: "https://dodopizza.azureedge.net/static/Img/Products/f035c7f46c0844069722f2bb3ee9f113_584x584.jpeg"
-  // price: 803
-  // rating: 4
-  // sizes: (3) [26, 30, 40]
-  // title: "Pepperoni with pepper"
-  // types: (2) [0, 1]
-
-  useEffect(() => {
-    const fetchPizzas = () => {
-      fetch("https://632300e8a624bced30841bde.mockapi.io/items")
-        .then((res) => {
-          // console.log({ res });
-          return res.json();
-        })
-        .then((data) => {
-          setPizzaData(data);
-          console.log(data);
-        });
-    };
-    fetchPizzas();
-  }, []);
-
+const PizzaList = ({ categoryId, isLoading, pizzaData }: Props) => {
   return (
     <section>
-      <h2 className="list-title">All pizzas</h2>
+      {/* <h2 className="list-title">All pizzas</h2> */}
+      <h2 className="list-title">{categories[categoryId]} pizzas</h2>
       <div className="content-list">
-        {/* // TODO: isLoading? */}
-        {pizzaData.length > 1
-          ? pizzaData.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} />)
-          : [...Array(10)].map((_card, index) => <PizzaCardSkeleton key={index} />)}
+        {isLoading
+          ? [...Array(10)].map((_card, index) => <PizzaCardSkeleton key={index} />)
+          : pizzaData.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} />)}
+        {/* {pizzaData.length > 0 */}
         {/*  <h1 style={{ color: "crimson", textAlign: "center" }}> Loading Pizzas... </h1> */}
       </div>
     </section>

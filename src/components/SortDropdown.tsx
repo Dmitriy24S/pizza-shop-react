@@ -1,16 +1,28 @@
 import React, { useState } from "react";
 
-const sortOptionsText = [
-  "By Popularity (DESC.)",
-  "By Popularity (ASC.)",
-  "By Price (DESC.)",
-  "By Price (ASC.)",
-  "By Name (DESC.)",
-  "By Name (ASC.)",
+const sortOptionsList = [
+  { id: 0, name: "By Popularity (ASC.)", sort: "rating", order: "asc" },
+  { id: 1, name: "By Popularity (DESC.)", sort: "rating", order: "desc" },
+  { id: 2, name: "By Price (ASC.)", sort: "price", order: "asc" },
+  { id: 3, name: "By Price (DESC.)", sort: "price", order: "desc" },
+  { id: 4, name: "By Name (ASC.)", sort: "title", order: "asc" },
+  { id: 5, name: "By Name (DESC.)", sort: "title", order: "desc" },
 ];
+// ! REPEAT - TODO: refactor!
+interface SelectedSortOptionType {
+  id: number;
+  name: string;
+  sort: string;
+  order: string;
+}
 
-const SortDropdown = () => {
-  const [selectedSortOption, setSelectedSortOption] = useState(sortOptionsText[0]);
+interface Props {
+  selectedSortOption: SelectedSortOptionType;
+  setSelectedSortOption: React.Dispatch<React.SetStateAction<SelectedSortOptionType>>;
+}
+
+const SortDropdown = ({ selectedSortOption, setSelectedSortOption }: Props) => {
+  // const [selectedSortOption, setSelectedSortOption] = useState(sortOptionsText[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
@@ -32,23 +44,26 @@ const SortDropdown = () => {
             fill="#2C2C2C"
           ></path>
         </svg>
-        <span className="sort-dropdown__btn-text">{selectedSortOption}</span>
+        <span className="sort-dropdown__btn-text">{selectedSortOption.name}</span>
       </button>
 
       {/* dropdown */}
       {isDropdownOpen && (
         <div className="sort-dropdown__options">
           <ul>
-            {sortOptionsText.map((optionText, index) => (
-              <li key={optionText}>
+            {/* {sortOptionsText.map((optionText, index) => ( */}
+            {sortOptionsList.map((option, index) => (
+              <li key={option.name}>
                 <button
-                  className={selectedSortOption === optionText ? "active" : ""}
+                  className={selectedSortOption.name === option.name ? "active" : ""}
                   onClick={() => {
-                    setSelectedSortOption(sortOptionsText[index]);
+                    console.log(index, "sort index");
+                    // setSelectedSortOption(sortOptionsText[index]);
+                    setSelectedSortOption(sortOptionsList[index]);
                     setIsDropdownOpen(false);
                   }}
                 >
-                  {optionText}
+                  {option.name}
                 </button>
               </li>
             ))}

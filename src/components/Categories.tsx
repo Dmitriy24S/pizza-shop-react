@@ -5,7 +5,8 @@ interface Props {
   handleCategoryChange: (selectedCategoryId: number) => void;
 }
 
-const categories = ["All", "Meat", "Vegetarion", "Grill", "Spicy"];
+const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
+// ! REPEAT - TODO: refactor!
 
 const Categories = ({ categoryId, handleCategoryChange }: Props) => {
   return (

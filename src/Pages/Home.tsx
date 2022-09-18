@@ -3,14 +3,74 @@ import Categories from "../components/Categories";
 import PizzaList from "../components/PizzaList";
 import SortDropdown from "../components/SortDropdown";
 
+interface SelectedSortOptionType {
+  id: number;
+  name: string;
+  sort: string;
+  order: string;
+}
+interface Pizza {
+  id: number;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+  category: number;
+  rating: number;
+}
+// ! REPEAT - TODO: refactor!
+
+const sortOptionsList = [
+  { id: 0, name: "By Popularity (ASC.)", sort: "rating", order: "asc" },
+  { id: 1, name: "By Popularity (DESC.)", sort: "rating", order: "desc" },
+  { id: 2, name: "By Price (ASC.)", sort: "price", order: "asc" },
+  { id: 3, name: "By Price (DESC.)", sort: "price", order: "desc" },
+  { id: 4, name: "By Name (ASC.)", sort: "title", order: "asc" },
+  { id: 5, name: "By Name (DESC.)", sort: "title", order: "desc" },
+];
+// ! REPEAT - TODO: refactor!
+
 const Home = () => {
+  const [pizzaData, setPizzaData] = useState<Pizza[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [categoryId, setCategoryId] = useState(0);
+  const [selectedSortOption, setSelectedSortOption] = useState<SelectedSortOptionType>(
+    sortOptionsList[0]
+  );
 
   const handleCategoryChange = (selectedCategoryId: number) => {
+    console.log({ selectedCategoryId }, "click");
     setCategoryId(selectedCategoryId);
   };
 
-  // scroll to top of page on page load (return from cart)
+  // Fetch pizza data
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchPizzas = () => {
+      console.log("fetch pizzas");
+      // fetch("https://632300e8a624bced30841bde.mockapi.io/items")
+      // &sortBy=rating&order=desc
+      fetch(
+        `https://632300e8a624bced30841bde.mockapi.io/items?category=${
+          categoryId > 0 ? categoryId : ""
+        }&sortBy=${selectedSortOption.sort}&order=${selectedSortOption.order}`
+      )
+        .then((res) => {
+          // console.log({ res });
+          return res.json();
+        })
+        .then((data) => {
+          setPizzaData(data);
+          console.log(data);
+          setIsLoading(false);
+        });
+    };
+    fetchPizzas();
+  }, [categoryId, selectedSortOption]);
+
+  // Scroll to top of page on page load (return from cart)
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -19,9 +79,12 @@ const Home = () => {
     <>
       <div className="container__top">
         <Categories categoryId={categoryId} handleCategoryChange={handleCategoryChange} />
-        <SortDropdown />
+        <SortDropdown
+          selectedSortOption={selectedSortOption}
+          setSelectedSortOption={setSelectedSortOption}
+        />
       </div>
-      <PizzaList />
+      <PizzaList categoryId={categoryId} isLoading={isLoading} pizzaData={pizzaData} />
     </>
   );
 };
