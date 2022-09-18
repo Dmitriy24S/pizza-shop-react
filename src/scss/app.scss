@@ -24,7 +24,8 @@ body {
 .container {
   margin: 0 auto;
   width: 90%;
-  padding-bottom: 40px;
+  margin-top: 40px; // separate from header border bottom spacing
+  padding-bottom: 40px; // for white space bottom
 }
 
 .container__top {
