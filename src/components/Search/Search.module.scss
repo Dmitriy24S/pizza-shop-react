@@ -8,7 +8,10 @@
   max-width: 300px;
   width: 100%;
 
-  svg {
+  .searchIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     opacity: 0.3;
     position: absolute;
     left: 10px;
@@ -21,5 +24,26 @@
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%; // with parent .search having max-width and width 100% -> will resize (otherwise if only set max-width on input -> dynamic resize not work according to window width?)
+  }
+
+  .closeIcon {
+    opacity: 0.3;
+    position: absolute;
+    padding: 0 10px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    &:focus-visible,
+    &:hover {
+      opacity: 0.4;
+    }
   }
 }
