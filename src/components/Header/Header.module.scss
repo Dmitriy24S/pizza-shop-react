@@ -1,7 +1,7 @@
 @import "../../scss/variables.scss"; // ! need import + app.scss overwites cart button code
 
 .header {
-  padding: 40px 0;
+  padding: 40px 0 0;
   border-bottom: 1px solid #f6f6f6;
 
   .container {
@@ -14,7 +14,7 @@
     margin: 0 auto;
     width: 90%;
 
-    @media (min-width: 645px) {
+    @media (min-width: 945px) {
       flex-direction: row;
     }
   }
@@ -43,6 +43,23 @@
   }
 }
 
+.SearchAndCartContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+
+  @media (min-width: 524px) {
+    flex-direction: row;
+  }
+  @media (min-width: 945px) {
+    // width: 60%; // start position of search in header?
+    width: 65%; // closer to left side logo
+  }
+}
+
 .cartBtn {
   display: flex;
   align-items: center;
@@ -52,6 +69,7 @@
   line-height: 23px;
   padding: 12px 25px;
   border-radius: 30px;
+  min-width: max-content; // in small/medium screen prevents button height/width jump and instead forces resize of search input width instead
   cursor: pointer;
   transition: all $duration ease-in-out;
 
