@@ -37,8 +37,8 @@ const Home = () => {
 
   const [categoryId, setCategoryId] = useState(0);
   const [selectedSortOption, setSelectedSortOption] = useState<SelectedSortOptionType>(
-    sortOptionsList[0]
-  );
+    sortOptionsList[1]
+  ); // sort By Popularity (DESC.) as default
 
   const handleCategoryChange = (selectedCategoryId: number) => {
     console.log({ selectedCategoryId }, "click");
@@ -47,15 +47,18 @@ const Home = () => {
 
   // Fetch pizza data
   useEffect(() => {
+    const category = categoryId > 0 ? categoryId : "";
+    const sortBy = selectedSortOption.sort;
+    const order = selectedSortOption.order;
+
     setIsLoading(true);
+
     const fetchPizzas = () => {
       console.log("fetch pizzas");
       // fetch("https://632300e8a624bced30841bde.mockapi.io/items")
       // &sortBy=rating&order=desc
       fetch(
-        `https://632300e8a624bced30841bde.mockapi.io/items?category=${
-          categoryId > 0 ? categoryId : ""
-        }&sortBy=${selectedSortOption.sort}&order=${selectedSortOption.order}`
+        `https://632300e8a624bced30841bde.mockapi.io/items?category=${category}&sortBy=${sortBy}&order=${order}`
       )
         .then((res) => {
           // console.log({ res });
@@ -67,6 +70,7 @@ const Home = () => {
           setIsLoading(false);
         });
     };
+
     fetchPizzas();
   }, [categoryId, selectedSortOption]);
 

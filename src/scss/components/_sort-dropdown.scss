@@ -1,6 +1,7 @@
 .sort-dropdown {
   position: relative;
   min-width: 21ch; // stable width?
+  z-index: 10; // fix hover on pizza with dropdown open overlap fix
 
   .sort-dropdown__btn {
     padding: 10px;
