@@ -6,7 +6,7 @@ interface Props {
 }
 
 const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
-// ! REPEAT - TODO: refactor!
+// ! REPEAT - TODO: refactor! (PizzaList + Categories)
 
 const Categories = ({ categoryId, handleCategoryChange }: Props) => {
   return (

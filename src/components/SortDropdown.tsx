@@ -8,7 +8,8 @@ const sortOptionsList = [
   { id: 4, name: "By Name (ASC.)", sort: "title", order: "asc" },
   { id: 5, name: "By Name (DESC.)", sort: "title", order: "desc" },
 ];
-// ! REPEAT - TODO: refactor!
+// ! REPEAT - TODO: refactor! (Home + SortDropdown)
+
 interface SelectedSortOptionType {
   id: number;
   name: string;

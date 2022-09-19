@@ -5,7 +5,12 @@ import HeaderLogo from "../../assets/img/pizza-logo.svg";
 import Search from "../Search/Search";
 import styles from "./Header.module.scss";
 
-const Header = () => {
+interface Props {
+  searchInputValue: string;
+  setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Header = ({ searchInputValue, setSearchInputValue }: Props) => {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -17,7 +22,7 @@ const Header = () => {
           </div>
         </Link>
         <div className={styles.SearchAndCartContainer}>
-          <Search />
+          <Search searchInputValue={searchInputValue} setSearchInputValue={setSearchInputValue} />
           <Link to={`cart`} className={styles.cartBtn}>
             <span>0 $</span>
             <div className={styles.separator}></div>

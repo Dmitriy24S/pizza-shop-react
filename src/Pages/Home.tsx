@@ -19,7 +19,7 @@ interface Pizza {
   category: number;
   rating: number;
 }
-// ! REPEAT - TODO: refactor!
+// ! REPEAT - TODO: refactor! (Home + PizzaList)
 
 const sortOptionsList = [
   { id: 0, name: "By Popularity (ASC.)", sort: "rating", order: "asc" },
@@ -29,12 +29,16 @@ const sortOptionsList = [
   { id: 4, name: "By Name (ASC.)", sort: "title", order: "asc" },
   { id: 5, name: "By Name (DESC.)", sort: "title", order: "desc" },
 ];
-// ! REPEAT - TODO: refactor!
+// ! REPEAT - TODO: refactor! (Home + SortDropdown)
 
-const Home = () => {
+interface Props {
+  searchInputValue: string;
+  setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Home = ({ searchInputValue, setSearchInputValue }: Props) => {
   const [pizzaData, setPizzaData] = useState<Pizza[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
   const [categoryId, setCategoryId] = useState(0);
   const [selectedSortOption, setSelectedSortOption] = useState<SelectedSortOptionType>(
     sortOptionsList[1]
@@ -88,7 +92,12 @@ const Home = () => {
           setSelectedSortOption={setSelectedSortOption}
         />
       </div>
-      <PizzaList categoryId={categoryId} isLoading={isLoading} pizzaData={pizzaData} />
+      <PizzaList
+        categoryId={categoryId}
+        isLoading={isLoading}
+        pizzaData={pizzaData}
+        searchInputValue={searchInputValue}
+      />
     </>
   );
 };
