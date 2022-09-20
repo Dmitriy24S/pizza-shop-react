@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import HeaderLogo from "../../assets/img/pizza-logo.svg";
 import Search from "../Search/Search";
@@ -11,9 +11,12 @@ interface Props {
 }
 
 const Header = ({ searchInputValue, setSearchInputValue }: Props) => {
+  const location = useLocation();
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
+        {/* Logo */}
         <Link to={`/`} className={styles.logoContainer}>
           <img src={HeaderLogo} alt="Pizza Shop Logo" width="38" />
           <div>
@@ -21,8 +24,15 @@ const Header = ({ searchInputValue, setSearchInputValue }: Props) => {
             <p>Tasties pizza ever</p>
           </div>
         </Link>
+
+        {/* Cart & Search Container (div container is for mobile row) */}
         <div className={styles.SearchAndCartContainer}>
-          <Search searchInputValue={searchInputValue} setSearchInputValue={setSearchInputValue} />
+          {/* Search (show on home page, hide when on cart page) */}
+          {location.pathname !== "/cart" && (
+            <Search searchInputValue={searchInputValue} setSearchInputValue={setSearchInputValue} />
+          )}
+
+          {/* Cart */}
           <Link to={`cart`} className={styles.cartBtn}>
             <span>0 $</span>
             <div className={styles.separator}></div>
