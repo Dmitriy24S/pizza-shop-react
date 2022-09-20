@@ -105,13 +105,15 @@
     width: 32px;
     height: 32px;
     border: 2px solid $orange;
-    border-radius: 50%;
-    color: $orange;
-    transition: background-color $duration ease-in-out;
+    // border-radius: 50%;
+    // color: $orange;
+    // transition: background-color $duration ease-in-out;
+
+    // created separate btn--circle global class
 
     &:hover {
-      background-color: $orange;
-      color: white;
+      // background-color: $orange;
+      // color: white;
     }
   }
 }

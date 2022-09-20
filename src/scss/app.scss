@@ -79,3 +79,24 @@ body {
     transform: translateY(1px);
   }
 }
+
+.btn--circle {
+  border-radius: 50%;
+  color: $orange;
+  background-color: white;
+  border: 1px solid $orange;
+  cursor: pointer;
+  transition: background-color $duration ease-in-out;
+
+  &:hover {
+    background-color: $orange;
+    color: white;
+    font-weight: 700;
+  }
+
+  &.active {
+    background-color: $orange;
+    color: white;
+    font-weight: 700;
+  }
+}

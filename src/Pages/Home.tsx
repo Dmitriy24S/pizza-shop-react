@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Categories from "../components/Categories";
+import Pagination from "../components/Pagination/Pagination";
 import PizzaList from "../components/PizzaList";
 import SortDropdown from "../components/SortDropdown";
 
@@ -43,15 +44,23 @@ const Home = ({ searchInputValue, setSearchInputValue }: Props) => {
   const [selectedSortOption, setSelectedSortOption] = useState<SelectedSortOptionType>(
     sortOptionsList[1]
   ); // sort By Popularity (DESC.) as default
+  const [currentPage, setCurrentPage] = useState(1);
+  const [numOfPages, setNumOfPages] = useState(0);
+  const itemsPerPage = 6;
 
   const handleCategoryChange = (selectedCategoryId: number) => {
     console.log({ selectedCategoryId }, "click");
     setCategoryId(selectedCategoryId);
 
     if (searchInputValue) {
-      // If showing active filetered pizza data by search -> after select category -> clear input to show user all pizzas in selected category not filtered by search (mockApi limitation/quirk: category + search filter not work together)
+      // If showing active filete red pizza data by search -> after select category -> clear input to show user all pizzas in selected category not filtered by search (mockApi limitation/quirk: category + search filter not work together)
       setSearchInputValue("");
     }
+  };
+
+  const handlePageChange = (num: number) => {
+    console.log("handle change page");
+    setCurrentPage(num);
   };
 
   // If start search -> make category all (mockApi limitation/quirk: category + search filter not work together = only show to user total search of all categories)
@@ -74,28 +83,29 @@ const Home = ({ searchInputValue, setSearchInputValue }: Props) => {
     const fetchPizzas = () => {
       console.log("try fetch pizzas");
       // fetch("https://632300e8a624bced30841bde.mockapi.io/items")
-      // &sortBy=rating&order=desc
+      // sort: &sortBy=rating&order=desc
       // search/filter?: https://632300e8a624bced30841bde.mockapi.io/items?search=pep
       fetch(
-        `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}`
+        `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
       )
         .then((res) => {
           return res.json();
         })
         .then((data) => {
-          setPizzaData(data.items);
           console.log({ data }, "fetch data:");
+          setPizzaData(data.items);
+          setNumOfPages(Math.ceil(data.count / itemsPerPage)); // e.g. 10(items) / 6 (items per page)
           setIsLoading(false);
         });
     };
 
     fetchPizzas();
-  }, [categoryId, selectedSortOption, searchInputValue]);
+  }, [categoryId, selectedSortOption, searchInputValue, currentPage]);
 
-  // Scroll to top of page on page load (return from cart)
+  // Scroll to top of page on page load (return from cart) & scroll to top when change pagination page
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [currentPage]);
 
   return (
     <>
@@ -111,6 +121,12 @@ const Home = ({ searchInputValue, setSearchInputValue }: Props) => {
         isLoading={isLoading}
         pizzaData={pizzaData}
         searchInputValue={searchInputValue}
+      />
+      <Pagination
+        numOfPages={numOfPages}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        handlePageChange={handlePageChange}
       />
     </>
   );
