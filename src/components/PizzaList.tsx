@@ -27,13 +27,17 @@ const skeletons = [...Array(10)].map((_card, index) => <PizzaCardSkeleton key={i
 const PizzaList = ({ categoryId, isLoading, pizzaData, searchInputValue }: Props) => {
   // Filtered pizza data
   const pizzas = pizzaData
-    .filter((item) => item.title.toLocaleLowerCase().includes(searchInputValue.toLocaleLowerCase()))
+    // filter v1. - local filter fot static data:
+    // .filter((item) => item.title.toLocaleLowerCase().includes(searchInputValue.toLocaleLowerCase()))
+    // v.2 - filter from backend -> recieve filtered data
     .map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} />);
 
   return (
     <section>
       {/* <h2 className="list-title">All pizzas</h2> */}
-      <h2 className="list-title">{categories[categoryId]} pizzas</h2>
+      <h2 className="list-title">
+        {searchInputValue ? `Searching: '${searchInputValue}'` : categories[categoryId]} pizzas
+      </h2>
       <div className="content-list">
         {isLoading ? skeletons : pizzas}
         {/* {pizzaData.length > 0 */}

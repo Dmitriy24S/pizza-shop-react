@@ -47,36 +47,50 @@ const Home = ({ searchInputValue, setSearchInputValue }: Props) => {
   const handleCategoryChange = (selectedCategoryId: number) => {
     console.log({ selectedCategoryId }, "click");
     setCategoryId(selectedCategoryId);
+
+    if (searchInputValue) {
+      // If showing active filetered pizza data by search -> after select category -> clear input to show user all pizzas in selected category not filtered by search (mockApi limitation/quirk: category + search filter not work together)
+      setSearchInputValue("");
+    }
   };
+
+  // If start search -> make category all (mockApi limitation/quirk: category + search filter not work together = only show to user total search of all categories)
+  useEffect(() => {
+    if (searchInputValue) {
+      console.log("useEffect input value, set category to ALL(0)");
+      setCategoryId(0);
+    }
+  }, [searchInputValue]);
 
   // Fetch pizza data
   useEffect(() => {
-    const category = categoryId > 0 ? categoryId : "";
-    const sortBy = selectedSortOption.sort;
-    const order = selectedSortOption.order;
+    const search = searchInputValue ? `search=${searchInputValue}` : ""; // if entered search value -> add to fetch url
+    const category = categoryId > 0 && !search ? `category=${categoryId}` : ""; // if selected category -> add to fetch url
+    const sortBy = selectedSortOption.sort; // add to fetch url sortBy choice
+    const { order } = selectedSortOption; // add to fetch url sort order (asc / desc)
 
     setIsLoading(true);
 
     const fetchPizzas = () => {
-      console.log("fetch pizzas");
+      console.log("try fetch pizzas");
       // fetch("https://632300e8a624bced30841bde.mockapi.io/items")
       // &sortBy=rating&order=desc
+      // search/filter?: https://632300e8a624bced30841bde.mockapi.io/items?search=pep
       fetch(
-        `https://632300e8a624bced30841bde.mockapi.io/items?category=${category}&sortBy=${sortBy}&order=${order}`
+        `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}`
       )
         .then((res) => {
-          // console.log({ res });
           return res.json();
         })
         .then((data) => {
-          setPizzaData(data);
-          console.log(data);
+          setPizzaData(data.items);
+          console.log({ data }, "fetch data:");
           setIsLoading(false);
         });
     };
 
     fetchPizzas();
-  }, [categoryId, selectedSortOption]);
+  }, [categoryId, selectedSortOption, searchInputValue]);
 
   // Scroll to top of page on page load (return from cart)
   useEffect(() => {
