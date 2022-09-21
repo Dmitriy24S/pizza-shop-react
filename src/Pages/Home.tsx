@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ContextType, SearchContext } from "../App";
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination/Pagination";
 import PizzaList from "../components/PizzaList";
@@ -32,12 +33,8 @@ const sortOptionsList = [
 ];
 // ! REPEAT - TODO: refactor! (Home + SortDropdown)
 
-interface Props {
-  searchInputValue: string;
-  setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const Home = ({ searchInputValue, setSearchInputValue }: Props) => {
+const Home = () => {
+  const { searchInputValue, setSearchInputValue } = React.useContext(SearchContext) as ContextType;
   const [pizzaData, setPizzaData] = useState<Pizza[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [categoryId, setCategoryId] = useState(0);
@@ -56,6 +53,7 @@ const Home = ({ searchInputValue, setSearchInputValue }: Props) => {
       // If showing active filete red pizza data by search -> after select category -> clear input to show user all pizzas in selected category not filtered by search (mockApi limitation/quirk: category + search filter not work together)
       setSearchInputValue("");
     }
+    setCurrentPage(1); // update to page 1 when switch category
   };
 
   const handlePageChange = (num: number) => {
@@ -68,6 +66,7 @@ const Home = ({ searchInputValue, setSearchInputValue }: Props) => {
     if (searchInputValue) {
       console.log("useEffect input value, set category to ALL(0)");
       setCategoryId(0);
+      setCurrentPage(1); // update to page 1 when type in search and updating pizza list
     }
   }, [searchInputValue]);
 

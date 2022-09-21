@@ -5,12 +5,7 @@ import HeaderLogo from "../../assets/img/pizza-logo.svg";
 import Search from "../Search/Search";
 import styles from "./Header.module.scss";
 
-interface Props {
-  searchInputValue: string;
-  setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const Header = ({ searchInputValue, setSearchInputValue }: Props) => {
+const Header = () => {
   const location = useLocation();
 
   return (
@@ -28,9 +23,7 @@ const Header = ({ searchInputValue, setSearchInputValue }: Props) => {
         {/* Cart & Search Container (div container is for mobile row) */}
         <div className={styles.SearchAndCartContainer}>
           {/* Search (show on home page, hide when on cart page) */}
-          {location.pathname !== "/cart" && (
-            <Search searchInputValue={searchInputValue} setSearchInputValue={setSearchInputValue} />
-          )}
+          {location.pathname !== "/cart" && <Search />}
 
           {/* Cart */}
           <Link to={`cart`} className={styles.cartBtn}>

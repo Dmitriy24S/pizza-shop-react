@@ -7,25 +7,28 @@ import ErrorPage from "./Pages/ErrorPage/ErrorPage";
 import Home from "./Pages/Home";
 import "./scss/app.scss";
 
+export interface ContextType {
+  searchInputValue: string;
+  setSearchInputValue: React.Dispatch<React.SetStateAction<string>>;
+}
+export const SearchContext = React.createContext({});
+
 function App() {
   const [searchInputValue, setSearchInputValue] = useState("");
 
   return (
     <div className="wrapper">
-      <Header searchInputValue={searchInputValue} setSearchInputValue={setSearchInputValue} />
-      <div className="container">
-        {/* <Outlet /> // New React Router option - show children components */}
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home searchInputValue={searchInputValue} setSearchInputValue={setSearchInputValue} />
-            }
-          />
-          <Route path="cart" element={<Cart />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </div>
+      <SearchContext.Provider value={{ searchInputValue, setSearchInputValue }}>
+        <Header />
+        <div className="container">
+          {/* <Outlet /> // New React Router option - show children components */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </div>
+      </SearchContext.Provider>
     </div>
   );
 }
