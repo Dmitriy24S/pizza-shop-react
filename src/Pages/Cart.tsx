@@ -64,9 +64,9 @@ const Cart = () => {
             <path
               d="M8.33337 9.16667V14.1667"
               stroke="currentColor"
-              stroke-width="1.2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             ></path>
             <path
               d="M11.6666 9.16667V14.1667"
@@ -81,8 +81,8 @@ const Cart = () => {
       </div>
       <div className="cart__items--container">
         {/* cart item - start */}
-        {[...Array(5)].map((_item) => (
-          <div className="cart__item">
+        {[...Array(5)].map((_item, index) => (
+          <div className="cart__item" key={index}>
             {/* item img / name */}
             <div className="item__info--container">
               <div className="cart__item--img">
@@ -191,9 +191,9 @@ const Cart = () => {
               <path
                 d="M7 13L1 6.93015L6.86175 1"
                 stroke="#D3D3D3"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               ></path>
             </svg>
             Return home

@@ -1,30 +1,20 @@
 import React from "react";
-// import pizzaData from "../assets/data.json";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import PizzaCard from "./PizzaCard/PizzaCard";
 import PizzaCardSkeleton from "./PizzaCard/PizzaCardSkeleton";
 
-interface Pizza {
-  id: number;
-  imageUrl: string;
-  title: string;
-  types: number[];
-  sizes: number[];
-  price: number;
-  category: number;
-  rating: number;
-}
-// ! REPEAT - TODO: refactor! (Home + PizzaList)
-
 interface Props {
-  categoryId: number;
   isLoading: boolean;
-  pizzaData: Pizza[];
-  searchInputValue: string;
 }
 const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"]; // ! REPEAT - TODO: refactor!  (PizzaList + Categories)
 const skeletons = [...Array(10)].map((_card, index) => <PizzaCardSkeleton key={index} />);
 
-const PizzaList = ({ categoryId, isLoading, pizzaData, searchInputValue }: Props) => {
+const PizzaList = ({ isLoading }: Props) => {
+  const selectedCategoryId = useSelector((state: RootState) => state.filter.selectedCategoryId);
+  const searchInputValue = useSelector((state: RootState) => state.filter.searchInputValue);
+  const pizzaData = useSelector((state: RootState) => state.data.pizzaData);
+
   // Filtered pizza data
   const pizzas = pizzaData
     // filter v1. - local filter fot static data:
@@ -36,7 +26,8 @@ const PizzaList = ({ categoryId, isLoading, pizzaData, searchInputValue }: Props
     <section>
       {/* <h2 className="list-title">All pizzas</h2> */}
       <h2 className="list-title">
-        {searchInputValue ? `Searching: '${searchInputValue}'` : categories[categoryId]} pizzas
+        {searchInputValue ? `Searching: '${searchInputValue}'` : categories[selectedCategoryId]}{" "}
+        pizzas
       </h2>
       <div className="content-list">
         {isLoading ? skeletons : pizzas}

@@ -1,14 +1,19 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCurrentPage } from "../../redux/dataSlice";
+import { RootState } from "../../redux/store";
 import styles from "./Pagination.module.scss";
 
 interface Props {
   numOfPages: number;
-  currentPage: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-  handlePageChange: (num: number) => void;
 }
 
-const Pagination = ({ numOfPages, currentPage, setCurrentPage, handlePageChange }: Props) => {
+const Pagination = ({ numOfPages }: Props) => {
+  const currentPage = useSelector((state: RootState) => state.data.currentPage);
+  const dispatch = useDispatch();
+
+  console.log("render Pagination");
+
   return (
     <div className={styles.pagination}>
       <ul>
@@ -16,9 +21,9 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage, handlePageChange 
           <button
             className="btn--circle"
             onClick={() => {
-              // decriment page
+              // decrement page
               if (currentPage > 1) {
-                setCurrentPage((page) => page - 1);
+                dispatch(updateCurrentPage(currentPage - 1));
               }
             }}
           >
@@ -28,9 +33,9 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage, handlePageChange 
         {[...Array(numOfPages)].map((_page, index) => {
           const paginationPageNumber = index + 1;
           return (
-            <li>
+            <li key={index}>
               <button
-                onClick={() => handlePageChange(index + 1)}
+                onClick={() => dispatch(updateCurrentPage(paginationPageNumber))}
                 className={`btn--circle ${currentPage === paginationPageNumber ? "active" : ""}`}
               >
                 {paginationPageNumber}
@@ -44,7 +49,7 @@ const Pagination = ({ numOfPages, currentPage, setCurrentPage, handlePageChange 
             onClick={() => {
               // increment page
               if (currentPage < numOfPages) {
-                setCurrentPage((page) => page + 1);
+                dispatch(updateCurrentPage(currentPage + 1));
               }
             }}
           >

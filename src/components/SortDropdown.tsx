@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-
-const sortOptionsList = [
-  { id: 0, name: "By Popularity (ASC.)", sort: "rating", order: "asc" },
-  { id: 1, name: "By Popularity (DESC.)", sort: "rating", order: "desc" },
-  { id: 2, name: "By Price (ASC.)", sort: "price", order: "asc" },
-  { id: 3, name: "By Price (DESC.)", sort: "price", order: "desc" },
-  { id: 4, name: "By Name (ASC.)", sort: "title", order: "asc" },
-  { id: 5, name: "By Name (DESC.)", sort: "title", order: "desc" },
-];
-// ! REPEAT - TODO: refactor! (Home + SortDropdown)
+import { sortOptionsList } from "../redux/filterSlice";
 
 interface SelectedSortOptionType {
   id: number;
