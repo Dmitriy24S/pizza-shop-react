@@ -16,12 +16,10 @@ const Home = () => {
   const selectedCategoryId = useSelector((state: RootState) => state.filter.selectedCategoryId);
   const currentPage = useSelector((state: RootState) => state.data.currentPage);
   const searchInputValue = useSelector((state: RootState) => state.filter.searchInputValue);
+  const selectedSortOption = useSelector((state: RootState) => state.filter.selectedSortOption);
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedSortOption, setSelectedSortOption] = useState<SelectedSortOptionType>(
-    sortOptionsList[1]
-  ); // sort By Popularity (DESC.) as default
   const [numOfPages, setNumOfPages] = useState(0);
   const itemsPerPage = 6;
 
@@ -74,10 +72,7 @@ const Home = () => {
     <>
       <div className="container__top">
         <Categories />
-        <SortDropdown
-          selectedSortOption={selectedSortOption}
-          setSelectedSortOption={setSelectedSortOption}
-        />
+        <SortDropdown />
       </div>
       <PizzaList isLoading={isLoading} />
       <Pagination numOfPages={numOfPages} />

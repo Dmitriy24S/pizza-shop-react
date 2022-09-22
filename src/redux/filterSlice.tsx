@@ -20,13 +20,13 @@ export interface SelectedSortOptionType {
 export interface filterState {
   searchInputValue: string;
   selectedCategoryId: number;
-  sort: { id: number; name: string; sort: string; order: string };
+  selectedSortOption: { id: number; name: string; sort: string; order: string };
 }
 
 const initialState: filterState = {
   searchInputValue: "",
   selectedCategoryId: 0,
-  sort: sortOptionsList[1],
+  selectedSortOption: sortOptionsList[1], // sort By Popularity (DESC.) as default
 };
 
 export const filterSlice = createSlice({
@@ -41,10 +41,14 @@ export const filterSlice = createSlice({
       console.log("REDUX TOOLKIT handle search action.payload:", action.payload);
       state.searchInputValue = action.payload;
     },
+    setSelectedSortOption: (state, action: PayloadAction<number>) => {
+      console.log("REDUX set SORT OPTION action.payload:", action.payload);
+      state.selectedSortOption = sortOptionsList[action.payload];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateCategory, handleSearch } = filterSlice.actions;
+export const { updateCategory, handleSearch, setSelectedSortOption } = filterSlice.actions;
 
 export default filterSlice.reducer;

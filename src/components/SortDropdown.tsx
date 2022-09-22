@@ -1,19 +1,11 @@
 import React, { useState } from "react";
-import { sortOptionsList } from "../redux/filterSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedSortOption, sortOptionsList } from "../redux/filterSlice";
+import { RootState } from "../redux/store";
 
-interface SelectedSortOptionType {
-  id: number;
-  name: string;
-  sort: string;
-  order: string;
-}
-
-interface Props {
-  selectedSortOption: SelectedSortOptionType;
-  setSelectedSortOption: React.Dispatch<React.SetStateAction<SelectedSortOptionType>>;
-}
-
-const SortDropdown = ({ selectedSortOption, setSelectedSortOption }: Props) => {
+const SortDropdown = () => {
+  const dispatch = useDispatch();
+  const selectedSortOption = useSelector((state: RootState) => state.filter.selectedSortOption);
   // const [selectedSortOption, setSelectedSortOption] = useState(sortOptionsText[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -51,7 +43,7 @@ const SortDropdown = ({ selectedSortOption, setSelectedSortOption }: Props) => {
                   onClick={() => {
                     console.log(index, "sort index");
                     // setSelectedSortOption(sortOptionsText[index]);
-                    setSelectedSortOption(sortOptionsList[index]);
+                    dispatch(setSelectedSortOption(index));
                     setIsDropdownOpen(false);
                   }}
                 >
