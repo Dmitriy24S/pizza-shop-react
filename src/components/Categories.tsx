@@ -8,8 +8,7 @@ const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
 // ! REPEAT - TODO: refactor! (PizzaList + Categories)
 
 const Categories = () => {
-  const selectedCategoryId = useSelector((state: RootState) => state.filter.selectedCategoryId);
-  const searchInputValue = useSelector((state: RootState) => state.filter.searchInputValue);
+  const { selectedCategoryId, searchInputValue } = useSelector((state: RootState) => state.filter);
   const dispatch = useDispatch();
 
   console.log("render CATEGORIES");

@@ -11,8 +11,7 @@ const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"]; // ! REPEAT 
 const skeletons = [...Array(10)].map((_card, index) => <PizzaCardSkeleton key={index} />);
 
 const PizzaList = ({ isLoading }: Props) => {
-  const selectedCategoryId = useSelector((state: RootState) => state.filter.selectedCategoryId);
-  const searchInputValue = useSelector((state: RootState) => state.filter.searchInputValue);
+  const { selectedCategoryId, searchInputValue } = useSelector((state: RootState) => state.filter);
   const pizzaData = useSelector((state: RootState) => state.data.pizzaData);
 
   // Filtered pizza data

@@ -21,6 +21,7 @@
     font-size: inherit;
     padding: 10px 5px;
     padding-left: 40px;
+    padding-right: 15px;
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%; // with parent .search having max-width and width 100% -> will resize (otherwise if only set max-width on input -> dynamic resize not work according to window width?)

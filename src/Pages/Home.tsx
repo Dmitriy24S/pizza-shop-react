@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import { ContextType, SearchContext } from "../App";
+import axios from "axios";
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination/Pagination";
 import PizzaList from "../components/PizzaList";
@@ -7,16 +8,16 @@ import SortDropdown from "../components/SortDropdown";
 
 import { useDispatch, useSelector } from "react-redux";
 import { updateCurrentPage, updateData } from "../redux/dataSlice";
-import { SelectedSortOptionType, sortOptionsList, updateCategory } from "../redux/filterSlice";
+import { updateCategory } from "../redux/filterSlice";
 import { RootState } from "../redux/store";
 
 const Home = () => {
   console.log("render Home");
 
-  const selectedCategoryId = useSelector((state: RootState) => state.filter.selectedCategoryId);
+  const { selectedCategoryId, searchInputValue, selectedSortOption } = useSelector(
+    (state: RootState) => state.filter
+  );
   const currentPage = useSelector((state: RootState) => state.data.currentPage);
-  const searchInputValue = useSelector((state: RootState) => state.filter.searchInputValue);
-  const selectedSortOption = useSelector((state: RootState) => state.filter.selectedSortOption);
   const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -43,19 +44,32 @@ const Home = () => {
 
     const fetchPizzas = () => {
       console.log("useEffect: try fetch pizzas");
-      // fetch("https://632300e8a624bced30841bde.mockapi.io/items")
+      // url ("https://632300e8a624bced30841bde.mockapi.io/items")
       // sort: &sortBy=rating&order=desc
       // search/filter?: https://632300e8a624bced30841bde.mockapi.io/items?search=pep
-      fetch(
-        `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
-      )
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          console.log({ data }, "fetch data:");
-          dispatch(updateData(data.items));
-          setNumOfPages(Math.ceil(data.count / itemsPerPage)); // e.g. 10(items) / 6 (items per page)
+      // ! FETCH:
+      // fetch(
+      //   `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
+      // )
+      //   .then((res) => {
+      //     return res.json();
+      //   })
+      //   .then((data) => {
+      //     console.log({ data }, "fetch data:");
+      //     dispatch(updateData(data.items));
+      //     setNumOfPages(Math.ceil(data.count / itemsPerPage)); // e.g. 10(items) / 6 (items per page)
+      //     setIsLoading(false);
+      //   });
+
+      // ! AXIOS:
+      axios
+        .get(
+          `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
+        )
+        .then((response) => {
+          console.log(response.data, "fetch data:");
+          dispatch(updateData(response.data.items));
+          setNumOfPages(Math.ceil(response.data.count / itemsPerPage)); // e.g. 10(items) / 6 (items per page)
           setIsLoading(false);
         });
     };
