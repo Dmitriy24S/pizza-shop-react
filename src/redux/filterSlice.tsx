@@ -21,12 +21,14 @@ export interface filterState {
   searchInputValue: string;
   selectedCategoryId: number;
   selectedSortOption: { id: number; name: string; sort: string; order: string };
+  currentPage: number;
 }
 
 const initialState: filterState = {
   searchInputValue: "",
   selectedCategoryId: 0,
   selectedSortOption: sortOptionsList[1], // sort By Popularity (DESC.) as default
+  currentPage: 1,
 };
 
 export const filterSlice = createSlice({
@@ -45,10 +47,35 @@ export const filterSlice = createSlice({
       console.log("REDUX set SORT OPTION action.payload:", action.payload);
       state.selectedSortOption = sortOptionsList[action.payload];
     },
+    updateCurrentPage: (state, action: PayloadAction<number>) => {
+      console.log("REDUX TOOLKIT update currrent page", action.payload);
+      state.currentPage = action.payload;
+    },
+    // setFilters: (state, action: PayloadAction<string>) => {
+    setFilters: (state, action) => {
+      console.log("REDUX set FILTERS", action.payload);
+      //       REDUX set FILTERS
+      // {sortProperty: 'rating', categoryId: '3', currentPage: '1', sort: {…}}
+      // categoryId: "3"
+      // currentPage :"1"
+      // sort : {id: 1, name: 'By Popularity (DESC.)', sort: 'rating', order: 'desc'}
+      // sortProperty : "rating"
+
+      state.currentPage = Number(action.payload.currentPage);
+      state.selectedCategoryId = Number(action.payload.categoryId);
+      // state.selectedSortOption.sort = action.payload.sortProperty;
+      state.selectedSortOption = action.payload.sort;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateCategory, handleSearch, setSelectedSortOption } = filterSlice.actions;
+export const {
+  updateCategory,
+  handleSearch,
+  setSelectedSortOption,
+  updateCurrentPage,
+  setFilters,
+} = filterSlice.actions;
 
 export default filterSlice.reducer;

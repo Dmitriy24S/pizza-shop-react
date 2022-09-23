@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCurrentPage } from "../redux/dataSlice";
-import { handleSearch, updateCategory } from "../redux/filterSlice";
+import { handleSearch, updateCategory, updateCurrentPage } from "../redux/filterSlice";
 import { RootState } from "../redux/store";
 
 const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCurrentPage } from "../../redux/dataSlice";
+import { updateCurrentPage } from "../../redux/filterSlice";
 import { RootState } from "../../redux/store";
 import styles from "./Pagination.module.scss";
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Pagination = ({ numOfPages }: Props) => {
-  const currentPage = useSelector((state: RootState) => state.data.currentPage);
+  const currentPage = useSelector((state: RootState) => state.filter.currentPage);
   const dispatch = useDispatch();
 
   console.log("render Pagination");
