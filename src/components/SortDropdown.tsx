@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedSortOption, sortOptionsList } from "../redux/filterSlice";
 import { RootState } from "../redux/store";
@@ -8,9 +8,27 @@ const SortDropdown = () => {
   const selectedSortOption = useSelector((state: RootState) => state.filter.selectedSortOption);
   // const [selectedSortOption, setSelectedSortOption] = useState(sortOptionsText[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const sortDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Handle click outside sort dropdown -> close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: any) => {
+      console.log(event);
+      if (!event.path.includes(sortDropdownRef.current)) {
+        console.log("Click OUTSIDE of sortDropdown -> closing sortDropdown");
+        setIsDropdownOpen(false);
+      }
+    };
+    document.body.addEventListener("click", handleClickOutside);
+
+    // Cleanup click event:
+    return () => {
+      document.body.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className="sort-dropdown">
+    <div className="sort-dropdown" ref={sortDropdownRef}>
       <button className="sort-dropdown__btn" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
         {/* chevron svg */}
         <svg
@@ -41,7 +59,7 @@ const SortDropdown = () => {
                 <button
                   className={selectedSortOption.name === option.name ? "active" : ""}
                   onClick={() => {
-                    console.log(index, "sort index");
+                    console.log(index, "sort index click");
                     // setSelectedSortOption(sortOptionsText[index]);
                     dispatch(setSelectedSortOption(index));
                     setIsDropdownOpen(false);
