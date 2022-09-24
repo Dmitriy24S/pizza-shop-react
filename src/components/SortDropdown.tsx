@@ -13,9 +13,9 @@ const SortDropdown = () => {
   // Handle click outside sort dropdown -> close dropdown
   useEffect(() => {
     const handleClickOutside = (event: any) => {
-      console.log(event);
+      // console.log(event);
       if (!event.path.includes(sortDropdownRef.current)) {
-        console.log("Click OUTSIDE of sortDropdown -> closing sortDropdown");
+        // console.log("Click OUTSIDE of sortDropdown -> closing sortDropdown");
         setIsDropdownOpen(false);
       }
     };

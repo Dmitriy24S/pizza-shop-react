@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { addItemtoCart } from "../../redux/cartSlice";
+import { typeNames } from "../../redux/dataSlice";
 interface Props {
   pizza: {
     id: number;
@@ -25,9 +27,8 @@ interface Props {
 // title: "Pepperoni with pepper"
 // types: (2) [0, 1]
 
-const typeNames = ["thin", "traditional"];
-
 const PizzaCard = ({ pizza }: Props) => {
+  const dispatch = useDispatch();
   const [selectedPizzaType, setSelectedPizzaType] = useState(
     pizza.types.length === 1 ? pizza.types[0] : 0
   ); // if only 1 type avaialable then select the only type -> otherwise default is fist(0) type in array
@@ -73,7 +74,26 @@ const PizzaCard = ({ pizza }: Props) => {
       {/* pizza price / add to cart */}
       <div className="pizza-card__bottom">
         <div className="pizza-price">from {pizza.price} $</div>
-        <button className="add-cart-btn">
+        <button
+          className="add-cart-btn"
+          onClick={() => {
+            console.log("click ADD TO CART", {
+              ...pizza,
+              sizes: pizza.sizes[selectedPizzaSize],
+              types: pizza.types[selectedPizzaType],
+            });
+            // {id: 8, imageUrl: 'https://dodopizza.azureedge.net/static/Img/Product…za/ru-RU/ec29465e-606b-4a04-a03e-da3940d37e0e.jpg', title: 'Four Seasons', types: 1, sizes: 26, title: "Four Seasons", types: 1 …}
+            //
+            dispatch(
+              addItemtoCart({
+                ...pizza,
+                sizes: pizza.sizes[selectedPizzaSize],
+                types: pizza.types[selectedPizzaType],
+                amount: 1,
+              })
+            );
+          }}
+        >
           {/* plus svg */}
           <svg
             width="12"

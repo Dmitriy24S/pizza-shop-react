@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 import HeaderLogo from "../../assets/img/pizza-logo.svg";
+import { calcTotalItems } from "../../redux/cartSlice";
+import { RootState } from "../../redux/store";
 import Search from "../Search/Search";
 import styles from "./Header.module.scss";
 
 const Header = () => {
   const location = useLocation();
+  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const [totalCartItems, setTotalCartItems] = useState(0);
+
+  // Update/calculate total cart items (e.g. 1 type of item/pizza but more than 1 amount of that pizza)
+  useEffect(() => {
+    setTotalCartItems(calcTotalItems(cartItems));
+  }, [cartItems]);
 
   return (
     <header className={styles.header}>
@@ -60,7 +70,8 @@ const Header = () => {
                   strokeLinejoin="round"
                 ></path>
               </svg>
-              0
+              {/* {cartItems.length} */}
+              {totalCartItems}
             </span>
           </Link>
         </div>

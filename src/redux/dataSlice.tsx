@@ -16,6 +16,8 @@ export interface Pizza {
 //  count: 10
 //  items :(6) [{…}, {…}, {…}, {…}, {…}, {…}]
 
+export const typeNames = ["thin", "traditional"];
+
 export interface dataState {
   pizzaData: Pizza[];
 }
