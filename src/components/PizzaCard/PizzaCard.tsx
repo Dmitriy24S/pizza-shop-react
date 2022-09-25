@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItemtoCart } from "../../redux/cartSlice";
 import { typeNames } from "../../redux/dataSlice";
+import { RootState } from "../../redux/store";
 interface Props {
   pizza: {
     id: number;
@@ -29,10 +30,18 @@ interface Props {
 
 const PizzaCard = ({ pizza }: Props) => {
   const dispatch = useDispatch();
+  const { cartItems } = useSelector((state: RootState) => state.cart);
   const [selectedPizzaType, setSelectedPizzaType] = useState(
     pizza.types.length === 1 ? pizza.types[0] : 0
   ); // if only 1 type avaialable then select the only type -> otherwise default is fist(0) type in array
   const [selectedPizzaSize, setSelectedPizzaSize] = useState(0);
+
+  const checkPizzaAmoutInCart = () => {
+    const findPizza = cartItems.find((obj) => obj.title === pizza.title);
+    return findPizza ? findPizza.amount : null;
+  };
+
+  const pizzaAmount = checkPizzaAmoutInCart();
 
   return (
     <div className="pizza-card">
@@ -107,7 +116,11 @@ const PizzaCard = ({ pizza }: Props) => {
               fill="currentColor"
             ></path>
           </svg>
-          Add
+          {/* Add
+          <span className="pizza-amount">
+          {checkPizzaAmoutInCart()}
+          </span> */}
+          Add {pizzaAmount && <span className="pizza-amount">{pizzaAmount}</span>}
         </button>
       </div>
     </div>

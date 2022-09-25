@@ -15,10 +15,12 @@ export interface CartItemType {
 
 export interface CartStateType {
   cartItems: CartItemType[];
+  totalCartPrice: number;
 }
 
 const initialState: CartStateType = {
   cartItems: [],
+  totalCartPrice: 0,
 };
 
 // Update/calculate total cart items (e.g. 1 type of item/pizza but more than 1 amount of that pizza)
@@ -41,14 +43,21 @@ export const cartSlice = createSlice({
         );
         if (existingPizzaInCart) {
           existingPizzaInCart.amount += 1; // if already in cart -> increase pizza/item amount
+          // state.totalCartPrice += existingPizzaInCart.price;
         } else {
           console.log("3. cart not empty -> add NEW ITEM");
           state.cartItems.push(action.payload); // cart not empty -> add new item to cart
+          //  state.totalCartPrice += action.payload.price;
         }
       } else {
         console.log("1. empty cart -> add 1st item");
         state.cartItems.push(action.payload); // cart is empty -> add 1st item
+        // state.totalCartPrice += action.payload.price;
       }
+      // calc total total cart price:
+      state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
+        return obj.price * obj.amount + sum;
+      }, 0);
     },
     decrementCartItem: (state, action: PayloadAction<CartItemType>) => {
       // const cartItem = state.cartItems.find(
@@ -65,6 +74,7 @@ export const cartSlice = createSlice({
         ) {
           if (item.amount > 1) {
             console.log("CART ITEM MATCH -> DECREMENT");
+            state.totalCartPrice -= item.price;
             return { ...item, amount: item.amount - 1 }; // item decrement
           } else return item; // if only 1 item left -> stop decrementing, keep at 1 amount
         }
@@ -72,6 +82,10 @@ export const cartSlice = createSlice({
       });
       console.log(updatedItems, "updatedItems: after decrement");
       state.cartItems = updatedItems;
+      // calc total total cart price:
+      state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
+        return obj.price * obj.amount + sum;
+      }, 0);
     },
     deleteCartItem: (state, action: PayloadAction<CartItemType>) => {
       console.log("Redux: delete item form cart", action.payload);
@@ -100,6 +114,10 @@ export const cartSlice = createSlice({
       // thin, 40cm.
 
       state.cartItems = updatedCartItems;
+      // calc total cart price:
+      state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
+        return obj.price * obj.amount + sum;
+      }, 0);
     },
   },
 });

@@ -6,7 +6,7 @@ import { calcTotalItems } from "../redux/cartSlice";
 import { RootState } from "../redux/store";
 
 const Cart = () => {
-  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const { cartItems, totalCartPrice } = useSelector((state: RootState) => state.cart);
   const totalCartItems = calcTotalItems(cartItems);
 
   return (
@@ -107,7 +107,7 @@ const Cart = () => {
 
           <span>
             Order price:
-            <b> 10.99 $</b>
+            <b> {totalCartPrice.toFixed(2)} $</b>
           </span>
         </div>
         <div className="cart__bottom--buttons ">

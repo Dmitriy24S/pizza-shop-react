@@ -10,7 +10,7 @@ import styles from "./Header.module.scss";
 
 const Header = () => {
   const location = useLocation();
-  const { cartItems } = useSelector((state: RootState) => state.cart);
+  const { cartItems, totalCartPrice } = useSelector((state: RootState) => state.cart);
   const [totalCartItems, setTotalCartItems] = useState(0);
 
   // Update/calculate total cart items (e.g. 1 type of item/pizza but more than 1 amount of that pizza)
@@ -37,7 +37,7 @@ const Header = () => {
 
           {/* Cart */}
           <Link to={`cart`} className={styles.cartBtn}>
-            <span>0 $</span>
+            <span>{totalCartPrice.toFixed(2)} $</span>
             <div className={styles.separator}></div>
             <span>
               {/* cart svg */}
