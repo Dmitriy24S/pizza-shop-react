@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { CartItemType } from "../../redux/cartSlice";
+import { CartItemType, deleteCartItem } from "../../redux/cartSlice";
 // import styles from "./CartItem.module.scss";
 import { decrementCartItem } from "../../redux/cartSlice";
 import { typeNames } from "../../redux/dataSlice";
@@ -69,7 +69,7 @@ const CartItem = ({ ...item }: CartItemType) => {
         <div className="cart__item--price">
           <b>10.99 $</b>
         </div>
-        <button className="cart__item--remove-btn">
+        <button className="cart__item--remove-btn" onClick={() => dispatch(deleteCartItem(item))}>
           {/* cross / remove icon svg */}
           <svg
             width="10"

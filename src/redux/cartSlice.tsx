@@ -50,7 +50,7 @@ export const cartSlice = createSlice({
         state.cartItems.push(action.payload); // cart is empty -> add 1st item
       }
     },
-    decrementCartItem: (state, action) => {
+    decrementCartItem: (state, action: PayloadAction<CartItemType>) => {
       // const cartItem = state.cartItems.find(
       //   (item) =>
       //     item.title === action.payload.title &&
@@ -73,8 +73,36 @@ export const cartSlice = createSlice({
       console.log(updatedItems, "updatedItems: after decrement");
       state.cartItems = updatedItems;
     },
+    deleteCartItem: (state, action: PayloadAction<CartItemType>) => {
+      console.log("Redux: delete item form cart", action.payload);
+      // {id: 8, imageUrl: 'https://dodopizza.azureedge.net/static/Img/Product…za/ru-RU/ec29465e-606b-4a04-a03e-da3940d37e0e.jpg', title: 'Four Seasons', types: 0, sizes: 40, …}
+      // amount: 1
+      // category: 1
+      // id: 8
+      // imageUrl: "https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/ec29465e-606b-4a04-a03e-da3940d37e0e.jpg"
+      // price: 7.99
+      // rating: 10
+      // sizes: 40
+      // title:  "Four Seasons"
+      // types: 0
+
+      const updatedCartItems = state.cartItems.filter(
+        (item) =>
+          item.title !== action.payload.title ||
+          item.sizes !== action.payload.sizes ||
+          item.types !== action.payload.types
+      );
+      console.log({ updatedCartItems });
+
+      // Pepperoni
+      // thin, 26cm.
+      // Pepperoni
+      // thin, 40cm.
+
+      state.cartItems = updatedCartItems;
+    },
   },
 });
 
-export const { addItemtoCart, decrementCartItem } = cartSlice.actions;
+export const { addItemtoCart, decrementCartItem, deleteCartItem } = cartSlice.actions;
 export default cartSlice.reducer;
