@@ -46,6 +46,10 @@
   gap: 0.8rem;
   flex-direction: column; // mobile 2 rows
 
+  p {
+    color: $gray;
+  }
+
   @media (min-width: 610px) {
     flex-direction: row;
     align-items: center;
@@ -62,6 +66,11 @@
   // @media (min-width: 670px) {
   @media (min-width: 700px) {
     min-width: max-content;
+  }
+
+  &:first-of-type {
+    min-width: 40%;
+    max-width: 40%; // make even spacing? no matter pizza name length -> spacing for next (- amount +) section
   }
 
   &:last-of-type {
@@ -143,6 +152,10 @@
     background-color: $black;
     border-color: $black;
     color: white;
+  }
+
+  &:active {
+    transform: translateY(1px); // TODO: REFACTOR btn:active?
   }
 
   svg {
