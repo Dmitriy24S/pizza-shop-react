@@ -72,13 +72,13 @@
 
     .pizza-price {
       font-weight: 700;
-      font-size: 22px;
+      font-size: 21px;
       letter-spacing: 0.015em;
       line-height: 27px;
     }
 
     .add-cart-btn {
-      padding: 10px 20px; // TODO: add button padding to normalize scss ?
+      padding: 10px 15px; // TODO: add button padding to normalize scss ?
       border: 1px solid $orange;
       border-radius: 30px; // TODO: button normalize scss ?
       color: $orange;

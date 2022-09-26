@@ -23,13 +23,14 @@ const initialState: CartStateType = {
   totalCartPrice: 0,
 };
 
-// Update/calculate total cart items (e.g. 1 type of item/pizza but more than 1 amount of that pizza)
+// Update/calculate total cart items (e.g. 1 type of item/pizza but more than 1 amount of that pizza -> therefore should not me total items 1 -> but instead include each item/pizza amount )
 export const calcTotalItems = (cartItems: CartItemType[]) => {
   return cartItems.reduce((a, b) => a + b.amount, 0);
 };
 
+// Update/calculate total of single cart item (e.g. several orders of 1 type of pizza -> 1 pizza price * amount)
 export const calcSingleItemTotal = (cartItem: CartItemType) => {
-  return cartItem.price * cartItem.amount;
+  return (cartItem.price * cartItem.amount).toFixed(2);
 };
 
 export const cartSlice = createSlice({
@@ -58,12 +59,12 @@ export const cartSlice = createSlice({
         state.cartItems.push(action.payload); // cart is empty -> add 1st item
         // state.totalCartPrice += action.payload.price;
       }
-      // calc total total cart price:
+      // Calc total total cart price:  // ! NEEDED -> not auto update total
       state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
         return obj.price * obj.amount + sum;
       }, 0);
     },
-    decrementCartItem: (state, action: PayloadAction<CartItemType>) => {
+    decrementCartItem2: (state, action: PayloadAction<CartItemType>) => {
       // const cartItem = state.cartItems.find(
       //   (item) =>
       //     item.title === action.payload.title &&
@@ -86,11 +87,27 @@ export const cartSlice = createSlice({
       });
       console.log(updatedItems, "updatedItems: after decrement");
       state.cartItems = updatedItems;
-      // calc total total cart price:
+      // Calc total total cart price: // ! NOT NEEDED? -> auto changes total
+      // state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
+      //   return obj.price * obj.amount + sum;
+      // }, 0);
+    },
+    decrementCartItem: (state, action: PayloadAction<CartItemType>) => {
+      const findItem = state.cartItems.find(
+        (item) =>
+          item.title === action.payload.title &&
+          item.sizes === action.payload.sizes &&
+          item.types === action.payload.types
+      );
+      if (findItem && findItem.amount > 1) {
+        findItem.amount--; // works // ! but NEED calc total to update total,
+      }
+      // Calc total total cart price:  // ! NEEDED -> not auto update total
       state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
         return obj.price * obj.amount + sum;
       }, 0);
     },
+
     deleteCartItem: (state, action: PayloadAction<CartItemType>) => {
       console.log("Redux: delete item form cart", action.payload);
       // {id: 8, imageUrl: 'https://dodopizza.azureedge.net/static/Img/Product…za/ru-RU/ec29465e-606b-4a04-a03e-da3940d37e0e.jpg', title: 'Four Seasons', types: 0, sizes: 40, …}
@@ -118,14 +135,14 @@ export const cartSlice = createSlice({
       // thin, 40cm.
 
       state.cartItems = updatedCartItems;
-      // calc total cart price:
+      // Calc total cart price: // ! NEEDED -> not auto update total
       state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
         return obj.price * obj.amount + sum;
       }, 0);
     },
     clearAllCart: (state) => {
       state.cartItems = [];
-      state.totalCartPrice = 0;
+      state.totalCartPrice = 0; // ! NEEDED -> not auto update total
     },
   },
 });

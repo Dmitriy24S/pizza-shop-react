@@ -91,7 +91,7 @@ const Cart = () => {
         {/* cart item - start */}
         {/* {[...Array(5)].map((_item, index) => ( */}
         {cartItems.map((item, index) => (
-          <CartItem key={index} {...item} />
+          <CartItem key={index} {...item} /> // TODO: change key index?
         ))}
         {/* cart item - end */}
       </div>
