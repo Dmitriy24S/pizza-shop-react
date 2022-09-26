@@ -1,11 +1,12 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem/CartItem";
-import { calcTotalItems } from "../redux/cartSlice";
+import { calcTotalItems, clearAllCart } from "../redux/cartSlice";
 import { RootState } from "../redux/store";
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const { cartItems, totalCartPrice } = useSelector((state: RootState) => state.cart);
   const totalCartItems = calcTotalItems(cartItems);
 
@@ -45,7 +46,7 @@ const Cart = () => {
           </svg>
           Cart
         </h2>
-        <button className="cart__clear--btn">
+        <button className="cart__clear--btn" onClick={() => dispatch(clearAllCart())}>
           {/* trash can svg */}
           <svg
             width="20"
