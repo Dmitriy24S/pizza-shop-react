@@ -1,8 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { CartItemType, deleteCartItem } from "../../redux/cartSlice";
+import {
+  addItemtoCart,
+  calcSingleItemTotal,
+  CartItemType,
+  decrementCartItem,
+  deleteCartItem,
+} from "../../redux/cartSlice";
 // import styles from "./CartItem.module.scss";
-import { decrementCartItem } from "../../redux/cartSlice";
 import { typeNames } from "../../redux/dataSlice";
 
 const CartItem = ({ ...item }: CartItemType) => {
@@ -46,7 +51,10 @@ const CartItem = ({ ...item }: CartItemType) => {
             </svg>
           </button>
           <b>{item.amount}</b>
-          <button className="btn--circle item__amount--btn">
+          <button
+            className="btn--circle item__amount--btn"
+            onClick={() => dispatch(addItemtoCart(item))}
+          >
             {/* plus svg */}
             <svg
               width="10"
@@ -67,7 +75,8 @@ const CartItem = ({ ...item }: CartItemType) => {
           </button>
         </div>
         <div className="cart__item--price">
-          <b>10.99 $</b>
+          {/* <b>10.99 $</b> */}
+          <b>{calcSingleItemTotal(item)}</b>
         </div>
         <button className="cart__item--remove-btn" onClick={() => dispatch(deleteCartItem(item))}>
           {/* cross / remove icon svg */}

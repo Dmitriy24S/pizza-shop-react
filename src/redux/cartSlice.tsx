@@ -28,6 +28,10 @@ export const calcTotalItems = (cartItems: CartItemType[]) => {
   return cartItems.reduce((a, b) => a + b.amount, 0);
 };
 
+export const calcSingleItemTotal = (cartItem: CartItemType) => {
+  return cartItem.price * cartItem.amount;
+};
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
