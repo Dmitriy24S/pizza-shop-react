@@ -1,0 +1,26 @@
+.cart--empty {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.8rem;
+  text-align: center;
+
+  h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: #777; // TODO: color to variables scss?
+    font-size: 1.25rem;
+    letter-spacing: 0.2px; // 0.0125rem / 0.01em
+    line-height: 1.75rem;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+  }
+}

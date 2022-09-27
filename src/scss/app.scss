@@ -45,7 +45,6 @@ body {
 .btn {
   display: flex;
   align-items: center;
-  color: #ffff;
   font-weight: 600;
   border: none;
   line-height: 23px;
@@ -61,6 +60,8 @@ body {
 
 .btn--primary {
   background-color: $orange;
+  color: #ffff;
+
   &:hover {
     background-color: darken($orange, 8%);
   }
@@ -81,6 +82,15 @@ body {
   }
   &:active {
     transform: translateY(1px);
+  }
+}
+
+.btn--black {
+  background-color: black;
+  color: white;
+
+  &:hover {
+    background-color: lighten(black, 20%);
   }
 }
 

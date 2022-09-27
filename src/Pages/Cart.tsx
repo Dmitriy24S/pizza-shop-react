@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import CartEmpty from "../components/CartEmpty";
 import CartItem from "../components/CartItem/CartItem";
 import { calcTotalItems, clearAllCart } from "../redux/cartSlice";
 import { RootState } from "../redux/store";
@@ -10,6 +11,12 @@ const Cart = () => {
   const { cartItems, totalCartPrice } = useSelector((state: RootState) => state.cart);
   const totalCartItems = calcTotalItems(cartItems);
 
+  // If no items in cart -> show empty cart message component
+  if (cartItems.length === 0) {
+    return <CartEmpty />;
+  }
+
+  // Show cart with items
   return (
     <div className="cart">
       <div className="cart__top">
