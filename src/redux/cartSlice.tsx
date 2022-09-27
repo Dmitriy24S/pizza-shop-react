@@ -64,6 +64,7 @@ export const cartSlice = createSlice({
         return obj.price * obj.amount + sum;
       }, 0);
     },
+
     decrementCartItem2: (state, action: PayloadAction<CartItemType>) => {
       // const cartItem = state.cartItems.find(
       //   (item) =>
@@ -92,6 +93,7 @@ export const cartSlice = createSlice({
       //   return obj.price * obj.amount + sum;
       // }, 0);
     },
+
     decrementCartItem: (state, action: PayloadAction<CartItemType>) => {
       const findItem = state.cartItems.find(
         (item) =>
@@ -121,28 +123,33 @@ export const cartSlice = createSlice({
       // title:  "Four Seasons"
       // types: 0
 
-      const updatedCartItems = state.cartItems.filter(
-        (item) =>
-          item.title !== action.payload.title ||
-          item.sizes !== action.payload.sizes ||
-          item.types !== action.payload.types
-      );
-      console.log({ updatedCartItems });
+      if (window.confirm("Are you sure you want to remove this item?")) {
+        const updatedCartItems = state.cartItems.filter(
+          (item) =>
+            item.title !== action.payload.title ||
+            item.sizes !== action.payload.sizes ||
+            item.types !== action.payload.types
+        );
+        console.log({ updatedCartItems });
 
-      // Pepperoni
-      // thin, 26cm.
-      // Pepperoni
-      // thin, 40cm.
+        // Pepperoni
+        // thin, 26cm.
+        // Pepperoni
+        // thin, 40cm.
 
-      state.cartItems = updatedCartItems;
-      // Calc total cart price: // ! NEEDED -> not auto update total
-      state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
-        return obj.price * obj.amount + sum;
-      }, 0);
+        state.cartItems = updatedCartItems;
+        // Calc total cart price: // ! NEEDED -> not auto update total
+        state.totalCartPrice = state.cartItems.reduce((sum, obj) => {
+          return obj.price * obj.amount + sum;
+        }, 0);
+      }
     },
+
     clearAllCart: (state) => {
-      state.cartItems = [];
-      state.totalCartPrice = 0; // ! NEEDED -> not auto update total
+      if (window.confirm("Are you sure you want to delete all cart items?")) {
+        state.cartItems = [];
+        state.totalCartPrice = 0; // ! NEEDED -> not auto update total
+      }
     },
   },
 });
