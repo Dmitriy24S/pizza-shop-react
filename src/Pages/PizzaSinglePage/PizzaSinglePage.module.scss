@@ -1,0 +1,41 @@
+.title {
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+  font-size: 2.5rem;
+  line-height: 3rem;
+}
+
+.singlePizzaCard {
+  max-width: 440px;
+  // width: 250px; (full pizza list card width)
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  // TODO: Refactor SCSS overlap PizzaList Cards vs. SinglePizzaPage Card
+
+  img {
+    width: 320px !important;
+    left: 8px;
+    position: relative;
+    // pizza img right side extra white space -> add space to left
+  }
+}
+
+.singlePizzaSelectionBlock {
+  width: 250px;
+  margin-top: 0.5rem;
+}
+
+.pizzaBottomInfo {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+
+  span {
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+}

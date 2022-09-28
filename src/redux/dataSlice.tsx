@@ -9,7 +9,7 @@ export const typeNames = ["thin", "traditional"];
 const itemsPerPage = 6;
 
 export interface Pizza {
-  id: number;
+  id: number; // ! no type error -> mockapi changed id from number to string -> no type error? // TODO
   imageUrl: string;
   title: string;
   types: number[];
@@ -36,7 +36,6 @@ export const fetchPizzas = createAsyncThunk(
       `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
     );
     console.log("FETCH PIZZA DATA - Async Thunk", data, 33333333);
-    // return response.data
     return data;
   }
 );

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { addItemtoCart } from "../../redux/cartSlice";
 import { typeNames } from "../../redux/dataSlice";
 import { RootState } from "../../redux/store";
@@ -45,10 +46,10 @@ const PizzaCard = ({ pizza }: Props) => {
 
   return (
     <div className="pizza-card">
-      <a href="#/">
+      <Link to={`/pizza/${pizza.id}`}>
         <img src={pizza.imageUrl} alt={pizza.title} />
         <h4 className="pizza-card__title">{pizza.title}</h4>
-      </a>
+      </Link>
 
       <div className="pizza-card__selection-block">
         {/* pizza type */}
