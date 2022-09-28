@@ -1,18 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import { categories } from "../redux/filterSlice";
 import { RootState } from "../redux/store";
 import PizzaCard from "./PizzaCard/PizzaCard";
 import PizzaCardSkeleton from "./PizzaCard/PizzaCardSkeleton";
 
-interface Props {
-  isLoading: boolean;
-}
-const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"]; // ! REPEAT - TODO: refactor!  (PizzaList + Categories)
 const skeletons = [...Array(10)].map((_card, index) => <PizzaCardSkeleton key={index} />);
 
-const PizzaList = ({ isLoading }: Props) => {
+const PizzaList = () => {
   const { selectedCategoryId, searchInputValue } = useSelector((state: RootState) => state.filter);
-  const pizzaData = useSelector((state: RootState) => state.data.pizzaData);
+  const { pizzaData, status } = useSelector((state: RootState) => state.data);
 
   // Filtered pizza data
   const pizzas = pizzaData
@@ -23,15 +21,14 @@ const PizzaList = ({ isLoading }: Props) => {
 
   return (
     <section>
-      {/* <h2 className="list-title">All pizzas</h2> */}
       <h2 className="list-title">
         {searchInputValue ? `Searching: '${searchInputValue}'` : categories[selectedCategoryId]}{" "}
         pizzas
       </h2>
       <div className="content-list">
-        {isLoading ? skeletons : pizzas}
-        {/* {pizzaData.length > 0 */}
-        {/*  <h1 style={{ color: "crimson", textAlign: "center" }}> Loading Pizzas... </h1> */}
+        {status === "loading" && skeletons}
+        {status === "success" && pizzas}
+        {status === "error" && <ErrorPage />}
       </div>
     </section>
   );

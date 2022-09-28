@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
@@ -9,14 +9,18 @@ import Search from "../Search/Search";
 import styles from "./Header.module.scss";
 
 const Header = () => {
+  console.log("render HEADER");
   const location = useLocation();
   const { cartItems, totalCartPrice } = useSelector((state: RootState) => state.cart);
-  const [totalCartItems, setTotalCartItems] = useState(0);
 
+  // ! Not needed?:
+  // const [totalCartItems, setTotalCartItems] = useState(0);
   // Update/calculate total cart items (e.g. 1 type of item/pizza but more than 1 amount of that pizza)
-  useEffect(() => {
-    setTotalCartItems(calcTotalItems(cartItems));
-  }, [cartItems]);
+  // useEffect(() => {
+  //   setTotalCartItems(calcTotalItems(cartItems));
+  // }, [cartItems]);
+  // ! same?:
+  const totalCartItems = calcTotalItems(cartItems); // ! ?
 
   return (
     <header className={styles.header}>

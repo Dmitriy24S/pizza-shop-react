@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+// TODO: if selected category -> click header link to home -> url updates to home url -> but not reset pizza list
+
+import React, { useEffect, useRef } from "react";
 // import { ContextType, SearchContext } from "../App";
-import axios from "axios";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
 import Categories from "../components/Categories";
@@ -8,29 +9,27 @@ import Pagination from "../components/Pagination/Pagination";
 import PizzaList from "../components/PizzaList";
 import SortDropdown from "../components/SortDropdown";
 
-import { useDispatch, useSelector } from "react-redux";
-import { updateData } from "../redux/dataSlice";
+import { useSelector } from "react-redux";
+import { fetchPizzas } from "../redux/dataSlice";
 import {
   setFilters,
   sortOptionsList,
   updateCategory,
   updateCurrentPage,
 } from "../redux/filterSlice";
-import { RootState } from "../redux/store";
+import { RootState, useAppDispatch } from "../redux/store";
 
 const Home = () => {
   console.log("render Home");
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch(); // !! ?? createAsyncThunk / TypeScript
+
   const { selectedCategoryId, searchInputValue, selectedSortOption } = useSelector(
     (state: RootState) => state.filter
   );
   const currentPage = useSelector((state: RootState) => state.filter.currentPage);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [numOfPages, setNumOfPages] = useState(0);
-  const itemsPerPage = 6;
   const isUrlParams = useRef(false); // false by default url (for URL params)
   const isMounted = useRef(false); // to ignore 1st render (for URL params)
 
@@ -77,7 +76,7 @@ const Home = () => {
         currentPage,
       });
       console.log(queryString); // sortProperty=rating&categoryId=0&currentPage=1
-      navigate(`?${queryString}`);
+      navigate(`?${queryString}`); // ! causes extra rerenders(full page?, header, logo, header-cart, etc.)? - update url with filter params
     }
     // after 1st render -> make true
     isMounted.current = true;
@@ -85,47 +84,68 @@ const Home = () => {
 
   // Fetching pizza data - Part 3
   // If no URL params -> fetch clean pizza list
-  useEffect(() => {
-    // Fetch pizza data func.
-    const fetchPizzas = () => {
-      const search = searchInputValue ? `search=${searchInputValue}` : ""; // if entered search value -> add to fetch url
-      const category = selectedCategoryId > 0 && !search ? `category=${selectedCategoryId}` : ""; // if selected category -> add to fetch url
-      const sortBy = selectedSortOption.sort; // add to fetch url sortBy choice
-      const { order } = selectedSortOption; // add to fetch url sort order (asc / desc)
-      setIsLoading(true);
 
-      console.log("useEffect: try fetch pizzas");
-      // url ("https://632300e8a624bced30841bde.mockapi.io/items")
-      // sort: &sortBy=rating&order=desc
-      // search/filter?: https://632300e8a624bced30841bde.mockapi.io/items?search=pep
-      // ! FETCH:
-      // fetch(
-      //   `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
-      // )
-      //   .then((res) => {
-      //     return res.json();
-      //   })
-      //   .then((data) => {
-      //     console.log({ data }, "fetch data:");
-      //     dispatch(updateData(data.items));
-      //     setNumOfPages(Math.ceil(data.count / itemsPerPage)); // e.g. 10(items) / 6 (items per page)
-      //     setIsLoading(false);
-      //   });
-      // ! AXIOS:
-      axios
-        .get(
-          `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
-        )
-        .then((response) => {
-          console.log(response.data, "fetch data:");
-          dispatch(updateData(response.data.items));
-          setNumOfPages(Math.ceil(response.data.count / itemsPerPage)); // e.g. 10(items) / 6 (items per page)
-          setIsLoading(false);
-        });
+  // url ("https://632300e8a624bced30841bde.mockapi.io/items")
+  // sort: &sortBy=rating&order=desc
+  // search/filter?: https://632300e8a624bced30841bde.mockapi.io/items?search=pep
+
+  // ! FETCH:
+  // fetch(
+  //   `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
+  // )
+  //   .then((res) => {
+  //     return res.json();
+  //   })
+  //   .then((data) => {
+  //     console.log({ data }, "fetch data:");
+  //     dispatch(updateData(data.items));
+  //     setNumOfPages(Math.ceil(data.count / itemsPerPage)); // e.g. 10(items) / 6 (items per page)
+  //     setIsLoading(false);
+  //   });
+
+  // ! AXIOS:
+  // axios
+  //   .get(
+  //     `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
+  //   )
+  //   .then((response) => {
+  //     console.log(response.data, "fetch data:");
+  //     dispatch(updateData(response.data.items));
+  //     setNumOfPages(Math.ceil(response.data.count / itemsPerPage)); // e.g. 10(items) / 6 (items per page)
+  //     setIsLoading(false);
+  //   });
+
+  // ! Redux createAsyncThunk fetch:
+  useEffect(() => {
+    const search = searchInputValue ? `search=${searchInputValue}` : ""; // if entered search value -> add to fetch url
+    const category = selectedCategoryId > 0 && !search ? `category=${selectedCategoryId}` : ""; // if selected category -> add to fetch url
+    const sortBy = selectedSortOption.sort; // add to fetch url sortBy choice
+    const { order } = selectedSortOption; // add to fetch url sort order (asc / desc)
+
+    // ! Redux createAsyncThunk fetch:
+    const getPizzas = async () => {
+      console.log("useEffect - GET PIZZA FETCH 1 - Home dispatch", 1111111111);
+
+      dispatch(
+        fetchPizzas({
+          search,
+          category,
+          sortBy,
+          order,
+          currentPage,
+        })
+      );
     };
-    // If no URL/filter params -> fetch clean pizza list
+
+    // getPizzas(); // ! not needed? extra fetch?
+
     if (!isUrlParams.current) {
-      fetchPizzas();
+      getPizzas();
+      console.log(
+        "useEffect - GET PIZZA FETCH 3 isUrlParams.current",
+        isUrlParams.current,
+        2222222222
+      );
     }
     isUrlParams.current = false; // ! ?
   }, [selectedCategoryId, selectedSortOption, searchInputValue, currentPage, dispatch]);
@@ -135,14 +155,17 @@ const Home = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // TODO: if selected category -> click header link to home -> url updates to home url -> but not reset pizza list
+
   return (
     <>
       <div className="container__top">
         <Categories />
         <SortDropdown />
       </div>
-      <PizzaList isLoading={isLoading} />
-      <Pagination numOfPages={numOfPages} />
+      <PizzaList />
+      <Pagination />
+      {/* <Pagination numOfPages={numOfPages} /> */}
     </>
   );
 };

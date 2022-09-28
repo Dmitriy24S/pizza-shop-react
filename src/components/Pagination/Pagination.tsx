@@ -4,15 +4,11 @@ import { updateCurrentPage } from "../../redux/filterSlice";
 import { RootState } from "../../redux/store";
 import styles from "./Pagination.module.scss";
 
-interface Props {
-  numOfPages: number;
-}
-
-const Pagination = ({ numOfPages }: Props) => {
-  const currentPage = useSelector((state: RootState) => state.filter.currentPage);
-  const dispatch = useDispatch();
-
+const Pagination = () => {
   console.log("render Pagination");
+  const dispatch = useDispatch();
+  const currentPage = useSelector((state: RootState) => state.filter.currentPage);
+  const { numOfPages } = useSelector((state: RootState) => state.data);
 
   return (
     <div className={styles.pagination}>

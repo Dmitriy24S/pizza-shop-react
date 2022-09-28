@@ -1,10 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleSearch, updateCategory, updateCurrentPage } from "../redux/filterSlice";
+import { categories, handleSearch, updateCategory, updateCurrentPage } from "../redux/filterSlice";
 import { RootState } from "../redux/store";
-
-const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
-// ! REPEAT - TODO: refactor! (PizzaList + Categories)
 
 const Categories = () => {
   const { selectedCategoryId, searchInputValue } = useSelector((state: RootState) => state.filter);

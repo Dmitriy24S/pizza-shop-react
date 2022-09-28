@@ -10,6 +10,8 @@ export const sortOptionsList = [
   { id: 5, name: "By Name (DESC.)", sort: "title", order: "desc" },
 ];
 
+export const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
+
 export interface SelectedSortOptionType {
   id: number;
   name: string;
