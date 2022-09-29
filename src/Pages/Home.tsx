@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 // import { ContextType, SearchContext } from "../App";
 import qs from "qs";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination/Pagination";
 import PizzaList from "../components/PizzaList";
@@ -25,6 +25,7 @@ const Home = () => {
   const navigate = useNavigate();
   // const dispatch = useDispatch();
   const dispatch = useAppDispatch(); // !! ?? createAsyncThunk / TypeScript
+  const location = useLocation();
 
   const { selectedCategoryId, searchInputValue, selectedSortOption } = useSelector(
     (state: RootState) => state.filter
@@ -46,21 +47,38 @@ const Home = () => {
   // On first render -> Check if URL has params on first render -> send parsed filter values from URL to Redux Toolkit for pizza list fetch
   useEffect(() => {
     if (window.location.search) {
+      console.log(window.location.search);
+      // ?sortProperty=rating&categoryId=0&currentPage=1
       // parse url
       const params = qs.parse(window.location.search.substring(1)); // (exclude '?' at the beginning, e.g. {?sortProperty...)
-      console.log(params, "useEffect: PARAMS"); // {sortProperty: 'rating', categoryId: '2', currentPage: '1'}
+      console.log(params, "useEffect: PARAMS");
+      // {sortProperty: 'rating', categoryId: '2', currentPage: '1'}
 
       const sort = sortOptionsList.find(
         (obj) => obj.sort === params.sortProperty && obj.order === "desc"
       );
-      console.log(sort, "useEffect: PARAMS - SORT"); // {id: 0, name: 'By Popularity (ASC.)', sort: 'rating', order: 'asc'}
+      console.log(sort, "useEffect: PARAMS - SORT");
+      // { id: 0, name: 'By Popularity (ASC.)', sort: 'rating', order: 'asc'}
 
-      dispatch(
-        setFilters({
-          ...params,
-          sort,
-        })
-      );
+      // string | qs.ParsedQs | string[] | qs.ParsedQs[] | undefined
+      const currentPage = params.currentPage as string;
+      const categoryId = params.categoryId as string;
+
+      // payload: {
+      //   currentPage: number | string;
+      //   categoryId: number | string;
+      //   sort: { id: number; name: string; sort: string; order: string };
+      // };
+
+      if (sort) {
+        dispatch(
+          setFilters({
+            currentPage,
+            categoryId,
+            sort,
+          })
+        );
+      }
 
       isUrlParams.current = true; // set url params true
     }
@@ -137,10 +155,10 @@ const Home = () => {
       );
     };
 
-    // getPizzas(); // ! not needed? extra fetch?
+    getPizzas(); // ! not needed? extra fetch? or without this no fetch when load direct url? -> http://localhost:3000/?sortProperty=rating&categoryId=0&currentPage=1 // needed?
 
     if (!isUrlParams.current) {
-      getPizzas();
+      // getPizzas();  // ! or this not needed?
       console.log(
         "useEffect - GET PIZZA FETCH 3 isUrlParams.current",
         isUrlParams.current,

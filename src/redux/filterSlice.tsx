@@ -55,7 +55,16 @@ export const filterSlice = createSlice({
     },
     // setFilters: (state, action: PayloadAction<string>) => {
     // setFilters: (state, action: PayloadAction<filterState>) => {
-    setFilters: (state, action) => {
+    setFilters: (
+      state,
+      action: {
+        payload: {
+          currentPage: number | string;
+          categoryId: number | string;
+          sort: { id: number; name: string; sort: string; order: string };
+        };
+      }
+    ) => {
       console.log("REDUX set FILTERS", action.payload); // TODO: add type?
       //       REDUX set FILTERS
       // {sortProperty: 'rating', categoryId: '3', currentPage: '1', sort: {…}}
