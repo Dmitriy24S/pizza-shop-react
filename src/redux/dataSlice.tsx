@@ -74,7 +74,7 @@ export const dataSlice = createSlice({
     builder.addCase(fetchPizzas.fulfilled, (state, action) => {
       state.pizzaData = action.payload.items;
       state.count = action.payload.count;
-      state.numOfPages = Math.ceil(action.payload.count / action.payload.count) || 1; // e.g. 10(items) / 6 (items per page) | if null return 1?
+      state.numOfPages = Math.ceil(action.payload.count / itemsPerPage) || 1; // e.g. 10(items) / 6 (items per page) | // ! if null return 1? prevents app crash? (e.g. when hard enter out of bound url params?)
       state.status = "success";
     });
     builder.addCase(fetchPizzas.rejected, (state, action) => {
