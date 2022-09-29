@@ -4,13 +4,17 @@ import { Link, useLocation } from "react-router-dom";
 
 import HeaderLogo from "../../assets/img/pizza-logo.svg";
 import { calcTotalItems } from "../../redux/cartSlice";
-import { RootState } from "../../redux/store";
+import { RootState, useAppDispatch } from "../../redux/store";
 import Search from "../Search/Search";
 import styles from "./Header.module.scss";
+
+import { setFilters, sortOptionsList } from "../../redux/filterSlice";
 
 const Header = () => {
   console.log("render HEADER");
   const location = useLocation();
+  const dispatch = useAppDispatch(); // !! ?? createAsyncThunk / TypeScript
+
   const { cartItems, totalCartPrice } = useSelector((state: RootState) => state.cart);
 
   // ! Not needed?:
@@ -22,11 +26,26 @@ const Header = () => {
   // ! same?:
   const totalCartItems = calcTotalItems(cartItems); // ! ?
 
+  // Reset PizzaList to initalState (fetch initial unfiltered pizza list):
+  const resetPizzaList = () => {
+    // initialState:
+    // currentPage: 1,
+    // selectedCategoryId: 0,
+    // selectedSortOption: sortOptionsList[1], // sort By Popularity (DESC.) as default
+    dispatch(
+      setFilters({
+        currentPage: 1,
+        categoryId: 0,
+        sort: sortOptionsList[1],
+      })
+    );
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
         {/* Logo */}
-        <Link to={`/`} className={styles.logoContainer}>
+        <Link to={`/`} className={styles.logoContainer} onClick={resetPizzaList}>
           <img src={HeaderLogo} alt="Pizza Shop Logo" width="38" />
           <div>
             <h1>Pizza Shop</h1>
