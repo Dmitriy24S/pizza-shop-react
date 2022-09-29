@@ -132,7 +132,9 @@
   font-weight: 700;
   letter-spacing: 0.01em;
   margin-left: auto;
-  min-width: max-content; // TODO: refactor? spacings
+  // min-width: max-content; // TODO: refactor? spacings
+  min-width: 6rem; // prevent content (- amount + section) jump in mobile/medium screen size when price increases
+  text-align: end;
 }
 
 .cart__item--remove-btn {
