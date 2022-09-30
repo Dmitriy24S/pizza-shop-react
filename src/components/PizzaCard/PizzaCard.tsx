@@ -2,20 +2,13 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addItemtoCart } from "../../redux/cartSlice";
-import { typeNames } from "../../redux/dataSlice";
+import { Pizza, typeNames } from "../../redux/dataSlice";
 import { RootState } from "../../redux/store";
-interface Props {
-  pizza: {
-    id: number;
-    imageUrl: string;
-    title: string;
-    types: number[];
-    sizes: number[];
-    price: number;
-    category: number;
-    rating: number;
-  };
-}
+
+// ? v1 type
+// interface PropsType {
+//   pizza: Pizza;
+// }
 
 // console.log(pizzaData);
 // (10) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
@@ -29,7 +22,10 @@ interface Props {
 // title: "Pepperoni with pepper"
 // types: (2) [0, 1]
 
-const PizzaCard = ({ pizza }: Props) => {
+// ? v1 type
+// const PizzaCard = ({ pizza }: PropsType ) => {
+// ? v2 type
+const PizzaCard = ({ pizza }: { pizza: Pizza }) => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state: RootState) => state.cart);
   const [selectedPizzaType, setSelectedPizzaType] = useState(
@@ -39,7 +35,7 @@ const PizzaCard = ({ pizza }: Props) => {
 
   const checkPizzaAmoutInCart = () => {
     const findPizza = cartItems.find((obj) => obj.title === pizza.title);
-    return findPizza ? findPizza.amount : null;
+    return findPizza ? findPizza.amount : null; // not show number next to 'Add to cart' btn when not added to cart -> after add item start showing number next to button
   };
 
   const pizzaAmount = checkPizzaAmoutInCart();

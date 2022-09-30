@@ -34,8 +34,8 @@ const Header = () => {
     // selectedSortOption: sortOptionsList[1], // sort By Popularity (DESC.) as default
     dispatch(
       setFilters({
-        currentPage: 1,
-        categoryId: 0,
+        currentPage: "1", // currentPage: 1, // make string to match filterSlice type string + searchParams parses = string
+        categoryId: "0", // categoryId: 0,
         sort: sortOptionsList[1],
       })
     );

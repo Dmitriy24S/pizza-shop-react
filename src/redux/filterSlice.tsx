@@ -1,13 +1,25 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
-export const sortOptionsList = [
-  { id: 0, name: "By Popularity (ASC.)", sort: "rating", order: "asc" },
-  { id: 1, name: "By Popularity (DESC.)", sort: "rating", order: "desc" },
-  { id: 2, name: "By Price (ASC.)", sort: "price", order: "asc" },
-  { id: 3, name: "By Price (DESC.)", sort: "price", order: "desc" },
-  { id: 4, name: "By Name (ASC.)", sort: "title", order: "asc" },
-  { id: 5, name: "By Name (DESC.)", sort: "title", order: "desc" },
+enum SortEnum {
+  RATING = "rating",
+  PRICE = "price",
+  TITLE = "title",
+}
+
+enum SortOrderEnum {
+  ASC = "asc",
+  DESC = "desc",
+}
+
+export const sortOptionsList: SelectedSortOptionType[] = [
+  // { id: 4, name: "By Name (ASC.)", sort: "title", order: "asc" },
+  { id: 0, name: "By Popularity (ASC.)", sort: SortEnum.RATING, order: SortOrderEnum.ASC },
+  { id: 1, name: "By Popularity (DESC.)", sort: SortEnum.RATING, order: SortOrderEnum.DESC },
+  { id: 2, name: "By Price (ASC.)", sort: SortEnum.PRICE, order: SortOrderEnum.ASC },
+  { id: 3, name: "By Price (DESC.)", sort: SortEnum.PRICE, order: SortOrderEnum.DESC },
+  { id: 4, name: "By Name (ASC.)", sort: SortEnum.TITLE, order: SortOrderEnum.ASC },
+  { id: 5, name: "By Name (DESC.)", sort: SortEnum.TITLE, order: SortOrderEnum.DESC },
 ];
 
 export const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
@@ -15,14 +27,14 @@ export const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
 export interface SelectedSortOptionType {
   id: number;
   name: string;
-  sort: string;
-  order: string;
+  sort: SortEnum; // sort: string;  // sort: "rating" | "price" | "title";
+  order: SortOrderEnum; // order: string; // order: "asc" | "desc";
 }
 
 export interface filterState {
   searchInputValue: string;
   selectedCategoryId: number;
-  selectedSortOption: { id: number; name: string; sort: string; order: string };
+  selectedSortOption: SelectedSortOptionType;
   currentPage: number;
 }
 
@@ -47,7 +59,7 @@ export const filterSlice = createSlice({
     },
     setSelectedSortOption: (state, action: PayloadAction<number>) => {
       console.log("REDUX set SORT OPTION action.payload:", action.payload);
-      state.selectedSortOption = sortOptionsList[action.payload];
+      state.selectedSortOption = sortOptionsList[action.payload]; // by index number take info from array
     },
     updateCurrentPage: (state, action: PayloadAction<number>) => {
       console.log("REDUX TOOLKIT update currrent page", action.payload);
@@ -59,14 +71,17 @@ export const filterSlice = createSlice({
       state,
       action: {
         payload: {
-          currentPage: number | string;
-          categoryId: number | string;
-          sort: { id: number; name: string; sort: string; order: string };
+          // currentPage: number | string; // in Header hard manual passing number / in Home useEffect parse url string
+          currentPage: string; // ? from url parse string?
+          // categoryId: number | string; // in Header hard manual passing number / in Home useEffect parse url string
+          categoryId: string; // ? from url parse string?
+          // sort: { id: number; name: string; sort: string; order: string };
+          sort: SelectedSortOptionType;
         };
       }
     ) => {
-      console.log("REDUX set FILTERS", action.payload); // TODO: add type?
-      //       REDUX set FILTERS
+      console.log("REDUX set FILTERS", action.payload);
+      // REDUX set FILTERS
       // {sortProperty: 'rating', categoryId: '3', currentPage: '1', sort: {…}}
       // categoryId: "3"
       // currentPage :"1"

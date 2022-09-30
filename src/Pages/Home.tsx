@@ -1,9 +1,7 @@
-// TODO: if selected category -> click header link to home -> url updates to home url -> but not reset pizza list
-
 import React, { useEffect, useRef } from "react";
 // import { ContextType, SearchContext } from "../App";
 import qs from "qs";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination/Pagination";
 import PizzaList from "../components/PizzaList";
@@ -25,7 +23,6 @@ const Home = () => {
   const navigate = useNavigate();
   // const dispatch = useDispatch();
   const dispatch = useAppDispatch(); // !! ?? createAsyncThunk / TypeScript
-  const location = useLocation();
 
   const { selectedCategoryId, searchInputValue, selectedSortOption } = useSelector(
     (state: RootState) => state.filter
@@ -50,7 +47,8 @@ const Home = () => {
       console.log(window.location.search);
       // ?sortProperty=rating&categoryId=0&currentPage=1
       // parse url
-      const params = qs.parse(window.location.search.substring(1)); // (exclude '?' at the beginning, e.g. {?sortProperty...)
+      const params = qs.parse(window.location.search.substring(1)); // (excludes '?' at the beginning, e.g. {?sortProperty...)
+      // const params = qs.parse(window.location.search.substring(1)) as Record<string, string>; // ? Record<string, string> not needed? even w/ undefined, no warnings?
       console.log(params, "useEffect: PARAMS");
       // {sortProperty: 'rating', categoryId: '2', currentPage: '1'}
 
@@ -61,24 +59,24 @@ const Home = () => {
       // { id: 0, name: 'By Popularity (ASC.)', sort: 'rating', order: 'asc'}
 
       // string | qs.ParsedQs | string[] | qs.ParsedQs[] | undefined
-      const currentPage = params.currentPage as string;
-      const categoryId = params.categoryId as string;
+      const currentPage = params.currentPage as string; // ? v1
+      // const categoryId = params.categoryId as string; // ? alternative way for type asign example v2
 
       // payload: {
       //   currentPage: number | string;
       //   categoryId: number | string;
-      //   sort: { id: number; name: string; sort: string; order: string };
+      //   sort: { id: number; name: string; sort: string; order: string }; // SelectedSortOptionType
       // };
 
-      if (sort) {
-        dispatch(
-          setFilters({
-            currentPage,
-            categoryId,
-            sort,
-          })
-        );
-      }
+      // if (sort) { // ! undefined warning fix v1
+      dispatch(
+        setFilters({
+          currentPage, // need correct name, exact name pass in setFilters({...}) | set to string for slice action/reducer type match + params parse provide string // ? v1
+          categoryId: params.categoryId as string, // ? alternative way for type asign example v2
+          sort: sort ? sort : sortOptionsList[1], // ! undefined fix v2
+        })
+      );
+      // }
 
       isUrlParams.current = true; // set url params true
     }
@@ -150,7 +148,7 @@ const Home = () => {
           category,
           sortBy,
           order,
-          currentPage,
+          currentPage, // ! number here (part3) & (part2) useffect fetch data BUT string in (part1) params parse
         })
       );
     };
@@ -172,8 +170,6 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  // TODO: if selected category -> click header link to home -> url updates to home url -> but not reset pizza list
 
   return (
     <>

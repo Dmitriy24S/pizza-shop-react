@@ -21,10 +21,18 @@ export interface Pizza {
 
 interface PizzaFetchParamsType {
   search: string;
-  category: any;
-  sortBy: any;
-  order: any;
-  currentPage: any;
+  category: string;
+  sortBy: string;
+  order: string;
+  currentPage: number; // ! TODO string / number in Home?
+  // currentPage: string;
+}
+
+// type PizzaFetchParamsType = Record<string, string>;
+
+interface PizzaFetchDataType {
+  items: Pizza[];
+  count: number;
 }
 
 export const fetchPizzas = createAsyncThunk(
@@ -32,24 +40,32 @@ export const fetchPizzas = createAsyncThunk(
   async (params: PizzaFetchParamsType, thunkAPI) => {
     const { search, category, sortBy, order, currentPage } = params;
     // const response = await axios.get(
-    const { data } = await axios.get(
+    const { data } = await axios.get<PizzaFetchDataType>(
       `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
     );
     console.log("FETCH PIZZA DATA - Async Thunk", data, 33333333);
+    // count: 10
+    // items: (6) [{…}, {…}, {…}, {…}, {…}, {…}
     return data;
   }
 );
 
+enum dataLoadingStatusEnum {
+  LOADING = "loading",
+  ERROR = "error",
+  SUCCESS = "success",
+}
+
 export interface dataState {
   pizzaData: Pizza[];
-  status: "loading" | "error" | "success";
+  status: dataLoadingStatusEnum; // status: "loading" | "error" | "success";
   count: number;
   numOfPages: number;
 }
 
 const initialState: dataState = {
   pizzaData: [],
-  status: "loading",
+  status: dataLoadingStatusEnum.LOADING, // status: "loading",
   count: 10,
   numOfPages: 3,
 };
@@ -68,17 +84,17 @@ export const dataSlice = createSlice({
     //   state.status = 'loading';
     // } // ? without TypeScript?
     builder.addCase(fetchPizzas.pending, (state, action) => {
-      state.status = "loading";
+      state.status = dataLoadingStatusEnum.LOADING; // state.status = "loading";
       state.pizzaData = [];
     });
     builder.addCase(fetchPizzas.fulfilled, (state, action) => {
       state.pizzaData = action.payload.items;
       state.count = action.payload.count;
       state.numOfPages = Math.ceil(action.payload.count / itemsPerPage) || 1; // e.g. 10(items) / 6 (items per page) | // ! if null return 1? prevents app crash? (e.g. when hard enter out of bound url params?)
-      state.status = "success";
+      state.status = dataLoadingStatusEnum.SUCCESS; // state.status = "success";
     });
     builder.addCase(fetchPizzas.rejected, (state, action) => {
-      state.status = "error";
+      state.status = dataLoadingStatusEnum.ERROR; // state.status = "error";
       state.pizzaData = [];
     });
   },
