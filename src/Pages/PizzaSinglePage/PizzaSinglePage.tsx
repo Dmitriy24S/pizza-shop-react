@@ -13,11 +13,10 @@ const PizzaSinglePage = () => {
 
   const [pizza, setPizza] = useState<Pizza>();
   const [isLoading, setIsLoading] = useState(true);
-
+  const [selectedPizzaSize, setSelectedPizzaSize] = useState(0);
   const [selectedPizzaType, setSelectedPizzaType] = useState(
     pizza?.types.length === 1 ? pizza?.types[0] : 0
   ); // if only 1 type avaialable then select the only type -> otherwise default is fist(0) type in array
-  const [selectedPizzaSize, setSelectedPizzaSize] = useState(0);
 
   useEffect(() => {
     const fetchSinglePizza = async () => {

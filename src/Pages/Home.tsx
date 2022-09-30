@@ -7,6 +7,7 @@ import Pagination from "../components/Pagination/Pagination";
 import PizzaList from "../components/PizzaList";
 import SortDropdown from "../components/SortDropdown";
 
+import { useWhyDidYouUpdate } from "ahooks";
 import { useSelector } from "react-redux";
 import { fetchPizzas } from "../redux/dataSlice";
 import {
@@ -133,7 +134,8 @@ const Home = () => {
 
   // ! Redux createAsyncThunk fetch:
   useEffect(() => {
-    const search = searchInputValue ? `search=${searchInputValue}` : ""; // if entered search value -> add to fetch url
+    // const search = searchInputValue ? `search=${searchInputValue}` : ""; // if entered search value -> add to fetch url
+    const search = searchInputValue ? `title=${searchInputValue}` : ""; // if entered search value -> add to fetch url // limit to only title search instead of overall search
     const category = selectedCategoryId > 0 && !search ? `category=${selectedCategoryId}` : ""; // if selected category -> add to fetch url
     const sortBy = selectedSortOption.sort; // add to fetch url sortBy choice
     const { order } = selectedSortOption; // add to fetch url sort order (asc / desc)
@@ -153,12 +155,23 @@ const Home = () => {
       );
     };
 
-    getPizzas(); // ! not needed? extra fetch? or without this no fetch when load direct url? -> http://localhost:3000/?sortProperty=rating&categoryId=0&currentPage=1 // needed?
+    // getPizzas(); // ! not needed? extra fetch? or without this no fetch when load direct url? -> http://localhost:3000/?sortProperty=rating&categoryId=0&currentPage=1 // needed?
+    // if (!isUrlParams.current ) {
+    // getPizzas(); // ! or this not needed?
 
-    if (!isUrlParams.current) {
-      // getPizzas();  // ! or this not needed?
+    // Fix remove extra unnecessary fetches?
+    // Part 1 fetch
+    // ? (prevents 2x fetch when have active/selected Category -> start searching pizza, type pizza in input -> categories reset to All to show all searched pizza context for user -> 2x fetches w/ searchInputValue + Category  = rerender Home 2x times = 2x fetches?)
+    // if (searchInputValue && selectedCategoryId === 0) {
+    if (!searchInputValue) {
+      console.log("PART - 1 fetch");
+      getPizzas(); // fetches pizza when not searching (e.g. Clicking/Selecting Category -> Fetch 1x selected category pizzas )
+    }
+    // Part 2 fetch
+    if (!isUrlParams.current && selectedCategoryId === 0 && searchInputValue) {
+      getPizzas(); // fetches pizza after entering search value with resets category to 0? = 1x fetch of searched value from All pizza categories
       console.log(
-        "useEffect - GET PIZZA FETCH 3 isUrlParams.current",
+        "PART - 2 fetch, useEffect - GET PIZZA FETCH 3 isUrlParams.current",
         isUrlParams.current,
         2222222222
       );
@@ -170,6 +183,16 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useWhyDidYouUpdate("Home", {
+    selectedSortOption,
+    sortOptionsList,
+    selectedCategoryId,
+    searchInputValue,
+    currentPage,
+    isUrlParams,
+    isMounted,
+  });
 
   return (
     <>

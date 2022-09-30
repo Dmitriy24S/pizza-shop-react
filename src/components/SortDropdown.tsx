@@ -1,9 +1,13 @@
+import { useWhyDidYouUpdate } from "ahooks";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedSortOption, sortOptionsList } from "../redux/filterSlice";
 import { RootState } from "../redux/store";
 
-const SortDropdown = () => {
+// memo prevents extra rerender when typing in search?
+const SortDropdown = React.memo(() => {
+  console.log("render DROPDOWN");
+
   const dispatch = useDispatch();
   const selectedSortOption = useSelector((state: RootState) => state.filter.selectedSortOption);
   // const [selectedSortOption, setSelectedSortOption] = useState(sortOptionsText[0]);
@@ -31,6 +35,13 @@ const SortDropdown = () => {
       document.body.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  useWhyDidYouUpdate("SortDropdown", {
+    isDropdownOpen,
+    selectedSortOption,
+    sortDropdownRef,
+    sortOptionsList,
+  });
 
   return (
     <div className="sort-dropdown" ref={sortDropdownRef}>
@@ -79,6 +90,6 @@ const SortDropdown = () => {
       )}
     </div>
   );
-};
+});
 
 export default SortDropdown;

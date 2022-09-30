@@ -79,6 +79,7 @@ export const cartSlice = createSlice({
           item.types === action.payload.types
         ) {
           if (item.amount > 1) {
+            // ! (?) in redux or inside CartItem should check?
             console.log("CART ITEM MATCH -> DECREMENT");
             state.totalCartPrice -= item.price;
             return { ...item, amount: item.amount - 1 }; // item decrement

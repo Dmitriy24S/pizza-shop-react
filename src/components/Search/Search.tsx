@@ -1,9 +1,11 @@
+import { useWhyDidYouUpdate } from "ahooks";
 import debounce from "lodash.debounce";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { ReactComponent as CloseIcon } from "../../assets/img/close-icon.svg";
 import { ReactComponent as SearchIcon } from "../../assets/img/search-icon.svg";
 import { handleSearch } from "../../redux/filterSlice";
+import { RootState } from "../../redux/store";
 // import { RootState } from "../../redux/store";
 
 import styles from "./Search.module.scss";
@@ -12,13 +14,13 @@ const Search = () => {
   console.log("render SEARCH");
 
   const dispatch = useDispatch();
-  // const searchInputValue = useSelector((state: RootState) => state.filter.searchInputValue); // controlled input value
+  const { searchInputValue, selectedCategoryId } = useSelector((state: RootState) => state.filter); // controlled input value
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const debouncedSearch = React.useCallback(
     debounce((searchInputValue) => {
       console.log("DEBOUNCE SEARCH");
-      dispatch(handleSearch(searchInputValue));
+      dispatch(handleSearch(searchInputValue.trim())); // remove extra white space?
     }, 500),
     []
   );
@@ -35,6 +37,18 @@ const Search = () => {
   //     searchInputRef.current.focus();
   //   }
   // };
+
+  // Clear uncontrolled input value when click on category -> because no longer searching -> showing items/pizzas inside category unfiltered
+  useEffect(() => {
+    console.log(searchInputRef, "CLEARING SEARCH INPUT -> after Category selection");
+    if (searchInputRef.current && selectedCategoryId !== 0) {
+      // ! but if after search click All categories (which are already selected -> rightfuly will show All unfiltered pizza
+      // ! -> but does not clear search input value)
+      searchInputRef.current.value = "";
+    }
+  }, [selectedCategoryId, searchInputValue]);
+
+  useWhyDidYouUpdate("Search", { selectedCategoryId, searchInputValue });
 
   return (
     <div className={styles.search}>
