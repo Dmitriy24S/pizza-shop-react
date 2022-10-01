@@ -19,11 +19,14 @@ const SortDropdown = React.memo(() => {
     const handleClickOutside = (event: MouseEvent) => {
       // console.log(event);
       // ! hacky workaround for path?:
-      const _event = event as MouseEvent & {
-        path: Node[];
-      };
+      // const _event = event as MouseEvent & {
+      //   path: Node[];
+      // };
       // if (!event.path.includes(sortDropdownRef.current)) {
-      if (sortDropdownRef.current && !_event.path.includes(sortDropdownRef.current)) {
+      // if (sortDropdownRef.current && !_event.path.includes(sortDropdownRef.current)) {
+      // ! ^ not work with mobile tap outside
+      if (!sortDropdownRef.current?.contains(event.target as Element)) {
+        // ! ^ work on mobile tap outside
         // console.log("Click OUTSIDE of sortDropdown -> closing sortDropdown");
         setIsDropdownOpen(false);
       }
