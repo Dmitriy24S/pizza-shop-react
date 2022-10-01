@@ -25,7 +25,14 @@
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%; // with parent .search having max-width and width 100% -> will resize (otherwise if only set max-width on input -> dynamic resize not work according to window width?)
+    &::-webkit-search-decoration {
+      display: none; // disable default iPhone mobile 'Magnifying glass icon' for search input -> have manual SVG Icon instead
+    }
   }
+
+  // input[type="search"]::-webkit-search-decoration {
+  //   display: none;
+  // }
 
   .closeIcon {
     opacity: 0.3;

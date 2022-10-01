@@ -46,7 +46,7 @@ const Search = () => {
       // ! -> but does not clear search input value)
       searchInputRef.current.value = "";
     }
-  }, [selectedCategoryId, searchInputValue]);
+  }, [selectedCategoryId]);
 
   useWhyDidYouUpdate("Search", { selectedCategoryId, searchInputValue });
 
@@ -60,7 +60,7 @@ const Search = () => {
         onChange={(e) => handleSearchInput(e)}
         ref={searchInputRef}
         // type="text"
-        type="search"
+        type="search" // double search icon on mobile safari (custom svg + html search icon) -> disable in css
         id="search-input"
         placeholder="Search pizza"
       />
