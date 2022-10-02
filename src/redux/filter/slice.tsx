@@ -1,16 +1,8 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
+import { filterState, SelectedSortOptionType, SortEnum, SortOrderEnum } from "../filter/types";
 
-enum SortEnum {
-  RATING = "rating",
-  PRICE = "price",
-  TITLE = "title",
-}
-
-enum SortOrderEnum {
-  ASC = "asc",
-  DESC = "desc",
-}
+export const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
 
 export const sortOptionsList: SelectedSortOptionType[] = [
   // { id: 4, name: "By Name (ASC.)", sort: "title", order: "asc" },
@@ -21,22 +13,6 @@ export const sortOptionsList: SelectedSortOptionType[] = [
   { id: 4, name: "By Name (ASC.)", sort: SortEnum.TITLE, order: SortOrderEnum.ASC },
   { id: 5, name: "By Name (DESC.)", sort: SortEnum.TITLE, order: SortOrderEnum.DESC },
 ];
-
-export const categories = ["All", "Meat", "Vegetarian", "Grill", "Spicy"];
-
-export interface SelectedSortOptionType {
-  id: number;
-  name: string;
-  sort: SortEnum; // sort: string;  // sort: "rating" | "price" | "title";
-  order: SortOrderEnum; // order: string; // order: "asc" | "desc";
-}
-
-export interface filterState {
-  searchInputValue: string;
-  selectedCategoryId: number;
-  selectedSortOption: SelectedSortOptionType;
-  currentPage: number;
-}
 
 const initialState: filterState = {
   searchInputValue: "",

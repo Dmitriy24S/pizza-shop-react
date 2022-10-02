@@ -1,43 +1,7 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-
-export interface CartItemType {
-  category: number;
-  id: number;
-  imageUrl: string;
-  price: number;
-  rating: number;
-  sizes: number;
-  title: string;
-  types: number;
-  amount: number;
-}
-
-export interface CartStateType {
-  cartItems: CartItemType[];
-  totalCartPrice: number;
-}
-
-// TODO: create/move to helpers/utils folder? // !! ??
-export const getCartItemsFromLocalStorage = () => {
-  console.log("REDUX: get CART ITEMS localStorage", 666666);
-
-  const data = localStorage.getItem("cart");
-  // if there is stored cart data already in localStorage get it : otherwise empty cart [] array:
-  const cartItems: CartItemType[] = data ? JSON.parse(data) : [];
-  const totalCartPrice = calcTotalCartItemsPrice(cartItems);
-  // Return values for state:
-  return {
-    cartItems,
-    totalCartPrice,
-  };
-};
-
-export const calcTotalCartItemsPrice = (cartItems: CartItemType[]) => {
-  return cartItems.reduce((sum, obj) => {
-    return obj.price * obj.amount + sum;
-  }, 0);
-};
+import { getCartItemsFromLocalStorage } from "../../utils/getCartItemsFromLocalStorage";
+import { CartItemType, CartStateType } from "./types";
 
 // On state creation receive cart items from localStorage and calculate cart total price
 const { cartItems, totalCartPrice } = getCartItemsFromLocalStorage();
@@ -45,16 +9,6 @@ const { cartItems, totalCartPrice } = getCartItemsFromLocalStorage();
 const initialState: CartStateType = {
   cartItems,
   totalCartPrice,
-};
-
-// Update/calculate total cart items (e.g. 1 type of item/pizza but more than 1 amount of that pizza -> therefore should not me total items 1 -> but instead include each item/pizza amount )
-export const calcTotalItems = (cartItems: CartItemType[]) => {
-  return cartItems.reduce((a, b) => a + b.amount, 0);
-};
-
-// Update/calculate total of single cart item (e.g. several orders of 1 type of pizza -> 1 pizza price * amount)
-export const calcSingleItemTotal = (cartItem: CartItemType) => {
-  return (cartItem.price * cartItem.amount).toFixed(2);
 };
 
 export const cartSlice = createSlice({

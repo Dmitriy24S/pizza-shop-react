@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Pizza, typeNames } from "../../redux/dataSlice";
+import { typeNames } from "../../redux/pizzaData/slice";
+import { Pizza } from "../../redux/pizzaData/types";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
 import styles from "./PizzaSinglePage.module.scss";

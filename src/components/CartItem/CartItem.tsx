@@ -1,14 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import {
-  addItemtoCart,
-  calcSingleItemTotal,
-  CartItemType,
-  decrementCartItem,
-  deleteCartItem,
-} from "../../redux/cartSlice";
+import { addItemtoCart, decrementCartItem, deleteCartItem } from "../../redux/cart/slice";
+import { CartItemType } from "../../redux/cart/types";
 // import styles from "./CartItem.module.scss";
-import { typeNames } from "../../redux/dataSlice";
+import { typeNames } from "../../redux/pizzaData/slice";
+import { calcSingleItemTotal } from "../../utils/calcSingleItemTotal";
 
 const CartItem = ({ ...item }: CartItemType) => {
   const dispatch = useDispatch();

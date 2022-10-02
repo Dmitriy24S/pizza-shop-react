@@ -1,7 +1,7 @@
 import { useWhyDidYouUpdate } from "ahooks";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { categories, handleSearch, updateCategory, updateCurrentPage } from "../redux/filterSlice";
+import { categories, handleSearch, updateCategory, updateCurrentPage } from "../redux/filter/slice";
 import { RootState } from "../redux/store";
 
 // const Categories = React.memo(() => {

@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { ReactComponent as CloseIcon } from "../../assets/img/close-icon.svg";
 import { ReactComponent as SearchIcon } from "../../assets/img/search-icon.svg";
-import { handleSearch } from "../../redux/filterSlice";
+import { handleSearch } from "../../redux/filter/slice";
 import { RootState } from "../../redux/store";
 // import { RootState } from "../../redux/store";
 

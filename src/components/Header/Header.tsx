@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 import HeaderLogo from "../../assets/img/pizza-logo.svg";
-import { calcTotalItems } from "../../redux/cartSlice";
-import { RootState, useAppDispatch } from "../../redux/store";
 import Search from "../Search/Search";
 import styles from "./Header.module.scss";
 
-import { setFilters, sortOptionsList } from "../../redux/filterSlice";
+import { setFilters, sortOptionsList } from "../../redux/filter/slice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { calcTotalItems } from "../../utils/calcTotalItems";
 
 const Header = () => {
   console.log("render HEADER");

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addItemtoCart } from "../../redux/cartSlice";
-import { Pizza, typeNames } from "../../redux/dataSlice";
+import { addItemtoCart } from "../../redux/cart/slice";
+import { typeNames } from "../../redux/pizzaData/slice";
+import { Pizza } from "../../redux/pizzaData/types";
 import { RootState } from "../../redux/store";
 
 // ? v1 type

@@ -9,13 +9,13 @@ import SortDropdown from "../components/SortDropdown";
 
 import { useWhyDidYouUpdate } from "ahooks";
 import { useSelector } from "react-redux";
-import { fetchPizzas } from "../redux/dataSlice";
 import {
   setFilters,
   sortOptionsList,
   updateCategory,
   updateCurrentPage,
-} from "../redux/filterSlice";
+} from "../redux/filter/slice";
+import { fetchPizzas } from "../redux/pizzaData/asyncActions";
 import { RootState, useAppDispatch } from "../redux/store";
 
 const Home = () => {

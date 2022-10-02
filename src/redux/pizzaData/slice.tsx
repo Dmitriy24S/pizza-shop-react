@@ -1,67 +1,13 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { fetchPizzas } from "./asyncActions";
+import { dataLoadingStatusEnum, dataState, Pizza } from "./types";
 
 // mockAPI data:
 //  count: 10
 //  items :(6) [{…}, {…}, {…}, {…}, {…}, {…}]
 
 export const typeNames = ["thin", "traditional"];
-const itemsPerPage = 6;
-
-export interface Pizza {
-  id: number; // ! no type error -> mockapi changed id from number to string -> no type error? // TODO
-  imageUrl: string;
-  title: string;
-  types: number[];
-  sizes: number[];
-  price: number;
-  category: number;
-  rating: number;
-}
-
-interface PizzaFetchParamsType {
-  search: string;
-  category: string;
-  sortBy: string;
-  order: string;
-  currentPage: number; // ! TODO string / number in Home?
-  // currentPage: string;
-}
-
-// type PizzaFetchParamsType = Record<string, string>;
-
-interface PizzaFetchDataType {
-  items: Pizza[];
-  count: number;
-}
-
-export const fetchPizzas = createAsyncThunk(
-  "data/fetchPizzas",
-  async (params: PizzaFetchParamsType, thunkAPI) => {
-    const { search, category, sortBy, order, currentPage } = params;
-    // const response = await axios.get(
-    const { data } = await axios.get<PizzaFetchDataType>(
-      `https://632300e8a624bced30841bde.mockapi.io/items?${category}${search}&sortBy=${sortBy}&order=${order}&page=${currentPage}&limit=${itemsPerPage}`
-    );
-    console.log("FETCH PIZZA DATA - Async Thunk", data, 33333333);
-    // count: 10
-    // items: (6) [{…}, {…}, {…}, {…}, {…}, {…}
-    return data;
-  }
-);
-
-enum dataLoadingStatusEnum {
-  LOADING = "loading",
-  ERROR = "error",
-  SUCCESS = "success",
-}
-
-export interface dataState {
-  pizzaData: Pizza[];
-  status: dataLoadingStatusEnum; // status: "loading" | "error" | "success";
-  count: number;
-  numOfPages: number;
-}
+export const itemsPerPage = 6;
 
 const initialState: dataState = {
   pizzaData: [],

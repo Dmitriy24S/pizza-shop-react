@@ -3,12 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartEmpty from "../components/CartEmpty";
 import CartItem from "../components/CartItem/CartItem";
-import { calcTotalItems, clearAllCart } from "../redux/cartSlice";
-import { RootState } from "../redux/store";
+import { selectCart } from "../redux/cart/selectors";
+import { clearAllCart } from "../redux/cart/slice";
+import { calcTotalItems } from "../utils/calcTotalItems";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cartItems, totalCartPrice } = useSelector((state: RootState) => state.cart);
+  // const { cartItems, totalCartPrice } = useSelector((state: RootState) => state.cart);
+  // refactor into redux selector: export const selectCart = (state: RootState) => state.cart;
+  const { cartItems, totalCartPrice } = useSelector(selectCart);
+
   const totalCartItems = calcTotalItems(cartItems);
 
   // If no items in cart -> show empty cart message component

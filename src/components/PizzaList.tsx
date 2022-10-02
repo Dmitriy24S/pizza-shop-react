@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
-import { categories } from "../redux/filterSlice";
+import { categories } from "../redux/filter/slice";
 import { RootState } from "../redux/store";
 import PizzaCard from "./PizzaCard/PizzaCard";
 import PizzaCardSkeleton from "./PizzaCard/PizzaCardSkeleton";

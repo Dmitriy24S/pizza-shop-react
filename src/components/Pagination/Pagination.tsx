@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCurrentPage } from "../../redux/filterSlice";
+import { updateCurrentPage } from "../../redux/filter/slice";
 import { RootState } from "../../redux/store";
 import styles from "./Pagination.module.scss";
 

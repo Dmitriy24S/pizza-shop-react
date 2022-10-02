@@ -1,15 +1,17 @@
 import { useWhyDidYouUpdate } from "ahooks";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedSortOption, sortOptionsList } from "../redux/filterSlice";
-import { RootState } from "../redux/store";
+import { filterSelector } from "../redux/filter/selectors";
+import { setSelectedSortOption, sortOptionsList } from "../redux/filter/slice";
+// import { RootState } from "../redux/store";
 
 // memo prevents extra rerender when typing in search?
 const SortDropdown = React.memo(() => {
   console.log("render DROPDOWN");
 
   const dispatch = useDispatch();
-  const selectedSortOption = useSelector((state: RootState) => state.filter.selectedSortOption);
+  // const selectedSortOption = useSelector((state: RootState) => state.filter.selectedSortOption);
+  const { selectedSortOption } = useSelector(filterSelector);
   // const [selectedSortOption, setSelectedSortOption] = useState(sortOptionsText[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const sortDropdownRef = useRef<HTMLDivElement>(null);
