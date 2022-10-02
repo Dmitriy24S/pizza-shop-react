@@ -18,9 +18,33 @@ export interface CartStateType {
   totalCartPrice: number;
 }
 
+// TODO: create/move to helpers/utils folder? // !! ??
+export const getCartItemsFromLocalStorage = () => {
+  console.log("REDUX: get CART ITEMS localStorage", 666666);
+
+  const data = localStorage.getItem("cart");
+  // if there is stored cart data already in localStorage get it : otherwise empty cart [] array:
+  const cartItems: CartItemType[] = data ? JSON.parse(data) : [];
+  const totalCartPrice = calcTotalCartItemsPrice(cartItems);
+  // Return values for state:
+  return {
+    cartItems,
+    totalCartPrice,
+  };
+};
+
+export const calcTotalCartItemsPrice = (cartItems: CartItemType[]) => {
+  return cartItems.reduce((sum, obj) => {
+    return obj.price * obj.amount + sum;
+  }, 0);
+};
+
+// On state creation receive cart items from localStorage and calculate cart total price
+const { cartItems, totalCartPrice } = getCartItemsFromLocalStorage();
+// State:
 const initialState: CartStateType = {
-  cartItems: [],
-  totalCartPrice: 0,
+  cartItems,
+  totalCartPrice,
 };
 
 // Update/calculate total cart items (e.g. 1 type of item/pizza but more than 1 amount of that pizza -> therefore should not me total items 1 -> but instead include each item/pizza amount )

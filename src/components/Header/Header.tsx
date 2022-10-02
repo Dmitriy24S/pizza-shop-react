@@ -41,6 +41,27 @@ const Header = () => {
     );
   };
 
+  // Set cart items to localStorage (Get cart items in Redux)
+  // const isMounted = React.useRef(false); // on 1st render keep false
+  // ! ^ not needed?
+
+  React.useEffect(() => {
+    console.log("useEffect: set CART ITEMS localStorage", 77777);
+
+    // if (isMounted.current) {
+    // after 1st render is done -> only then take cartItems -> otherwise on 1st render cartItems = [] ? avoid overwrite?
+    // ! ^ not needed? after add getCartItemsFromLocalStorage to Redux?
+    const json = JSON.stringify(cartItems);
+    console.log("localStorage:", json);
+    console.log("cartItems:", cartItems);
+
+    localStorage.setItem("cart", json);
+    // }
+    // after 1st render become make isMounted true
+    // isMounted.current = true;
+    // ! ^ not needed?
+  }, [cartItems]);
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
