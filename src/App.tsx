@@ -2,7 +2,8 @@ import React, { Suspense } from "react";
 import Loadable from "react-loadable";
 import { createBrowserRouter, Outlet, Route, RouterProvider, Routes } from "react-router-dom";
 
-import Header from "./components/Header/Header";
+// import Header from "./components/Header/Header";
+import MainLayout from "./layouts/MainLayout";
 // import Home from "./Pages/Home";
 // import Cart from "./Pages/Cart";
 // import PizzaSinglePage from "./Pages/PizzaSinglePage/PizzaSinglePage";
@@ -27,46 +28,52 @@ const Cart = Loadable({
 
 function App() {
   return (
-    <div className="wrapper">
-      <Header />
-      <div className="container">
-        {/* <Outlet /> // New React Router option - show children components */}
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Suspense>
-                <Home />
-              </Suspense>
-            }
-          />
-          <Route
-            path="cart"
-            element={
-              <Suspense>
-                <Cart />
-              </Suspense>
-            }
-          />
-          <Route
-            path="pizza/:id"
-            element={
-              <Suspense fallback={<h1>Loading pizza</h1>}>
-                <PizzaSinglePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <Suspense>
-                <ErrorPage />
-              </Suspense>
-            }
-          />
-        </Routes>
-      </div>
-    </div>
+    // v1:
+    // <div className="wrapper">
+    // <Header />
+    // <div className="container">
+
+    // v2:
+    // <Outlet /> // New React Router option - show children components */}
+
+    // v3 (Header in MainLayout with children as Outlet):
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route
+          // path="/"
+          path=""
+          element={
+            <Suspense>
+              <Home />
+            </Suspense>
+          }
+        />
+        <Route
+          path="cart"
+          element={
+            <Suspense>
+              <Cart />
+            </Suspense>
+          }
+        />
+        <Route
+          path="pizza/:id"
+          element={
+            <Suspense fallback={<h1>Loading pizza</h1>}>
+              <PizzaSinglePage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Suspense>
+              <ErrorPage />
+            </Suspense>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
 
