@@ -1,4 +1,14 @@
-# Getting Started with Create React App
+# Pizza shop react app
+
+![Design preview for Pizza shop react app](./design/preview.png)
+
+## Welcome
+
+Pizza shop react app. Created with React, SCSS & mockAPI.
+
+[Live Demo](https://pizza-shop-react-self.vercel.app/) 👈
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
