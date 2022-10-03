@@ -180,9 +180,10 @@ const Home = () => {
   }, [selectedCategoryId, selectedSortOption, searchInputValue, currentPage, dispatch]);
 
   // Scroll to top of page on page load (return from cart) & scroll to top when change pagination page
+  // + scroll to top when change page
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [currentPage]);
 
   useWhyDidYouUpdate("Home", {
     selectedSortOption,
